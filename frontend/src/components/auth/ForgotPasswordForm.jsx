@@ -6,15 +6,34 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { ArrowBigLeftDash } from "lucide-react";
 import Link from "next/link";
+import { useSendResetEmail } from "@/handlers/mutations";
 
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
 
-  const sendResetReq = () => {};
+  const handleSendEmail = useSendResetEmail();
+
+  const sendResetReq = (e) => {
+    e.preventDefault();
+
+    if (!email) {
+      alert("Please enter your registered email.");
+      return;
+    }
+
+    console.log("Email", email);
+
+    handleSendEmail.mutate({ email });
+
+    setEmail("");
+  };
 
   return (
     <div className="flex justify-center items-center h-screen">
-      <form className="p-10 pt-5 lg:w-[600px] w-[450px] md:w-[500px] shadow-md shadow-slate-300 rounded-2xl">
+      <form
+        className="p-10 pt-5 lg:w-[600px] w-[450px] md:w-[500px] shadow-md shadow-slate-300 rounded-2xl"
+        onSubmit={sendResetReq}
+      >
         <div className="mb-2 mt-0 text-sm cursor-pointer">
           <Link href="/login" className="flex hover:text-slate-400">
             <ArrowBigLeftDash size={20} />
@@ -48,13 +67,7 @@ export default function ForgotPasswordForm() {
           An email will be sent to you with instructions if the email you have
           provided is already registered.
         </p>
-        <Button
-          className="mt-3 h-12 w-full text-2xl"
-          type="submit"
-          onClick={() => {
-            sendResetReq();
-          }}
-        >
+        <Button className="mt-3 h-12 w-full text-2xl" type="submit">
           Send Email
         </Button>
       </form>

@@ -1,21 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Field, FieldContent, FieldDescription, FieldLabel } from "../ui/field";
-import { Input } from "../ui/input";
 import { Eye, EyeClosed } from "lucide-react";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
 } from "../ui/input-group";
+import { useRouter } from "next/navigation";
+import { jwtDecode } from "jwt-decode";
+import { useResetPassword } from "@/handlers/mutations";
 
 export default function ResetPasswordForm() {
   const [nPassword, setNPassword] = useState("");
   const [cPassword, setCPassword] = useState("");
   const [showNPassword, setShowNPassword] = useState(false);
   const [showCPassword, setShowCPassword] = useState(false);
+  const router = useRouter();
+  const handleResetPassword = useResetPassword();
 
   const toggleShowNPassword = () => {
     setShowNPassword(!showNPassword);
@@ -25,11 +29,38 @@ export default function ResetPasswordForm() {
     setShowCPassword(!showCPassword);
   };
 
-  const changePassword = () => {};
+  useEffect(() => {
+    const token = localStorage.getItem("resetToken");
+
+    if (!token) {
+      router.push("/forgotpassword");
+      return;
+    }
+    const decoded = jwtDecode(token);
+    if (decoded && decoded.exp * 1000 < Date.now()) {
+      router.push("/forgotpassword");
+      return;
+    }
+  }, [router]);
+
+  const handleReset = (e) => {
+    e.preventDefault();
+    if (nPassword !== cPassword) {
+      alert("Passwords do not Match");
+      return;
+    }
+
+    const token = localStorage.getItem("resetToken");
+
+    handleResetPassword.mutate({ token, password: nPassword });
+  };
 
   return (
     <div className="flex justify-center items-center h-screen">
-      <form className="p-10 lg:w-[600px] w-[450px] md:w-[500px] shadow-md shadow-slate-300 rounded-2xl">
+      <form
+        className="p-10 lg:w-[600px] w-[450px] md:w-[500px] shadow-md shadow-slate-300 rounded-2xl"
+        onSubmit={handleReset}
+      >
         <FieldDescription className="text-4xl text-whitesmoke font-bold text-center">
           Reset your Password
         </FieldDescription>
@@ -111,9 +142,7 @@ export default function ResetPasswordForm() {
         <Button
           className="mt-3 h-12 w-full text-2xl"
           type="submit"
-          onClick={() => {
-            changePassword();
-          }}
+          disabled={handleResetPassword.isLoading}
         >
           Change Password
         </Button>

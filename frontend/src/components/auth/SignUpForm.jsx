@@ -17,6 +17,7 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "../ui/input-group";
+import { useSignUp } from "@/handlers/mutations";
 
 export default function SignupForm() {
   const [fname, setFName] = useState("");
@@ -29,9 +30,38 @@ export default function SignupForm() {
     setShowPassword(!showPassword);
   };
 
+  const handleCreateAccount = useSignUp();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!fname || !lname || !email || !password) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+
+    if (!strongRegex.test(password)) {
+      toast.info(
+        "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, and one number."
+      );
+      return;
+    }
+
+    handleCreateAccount.mutate({
+      firstName: fname,
+      lastName: lname,
+      email: email,
+      password: password,
+    });
+  };
   return (
     <div className="flex justify-center items-center h-screen">
-      <form className="p-10 lg:w-[600px] w-[450px] md:w-[500px] border-2 shadow-md shadow-slate-300 rounded-2xl">
+      <form
+        className="p-10 lg:w-[600px] w-[450px] md:w-[500px] border-2 shadow-md shadow-slate-300 rounded-2xl"
+        onSubmit={handleSubmit}
+      >
         <FieldDescription className="text-4xl text-whitesmoke font-bold text-center">
           Sign Up
         </FieldDescription>
@@ -42,11 +72,10 @@ export default function SignupForm() {
           <FieldLabel className="text-xl pt-1" htmlFor="first_name">
             First Name*
           </FieldLabel>
-          {/* <FieldDescription>Enter your registered email..</FieldDescription> */}
           <FieldContent>
             <Input
               id="first_name"
-              type="email"
+              type="text"
               value={fname}
               onChange={(e) => setFName(e.target.value)}
               placeholder="John"
@@ -54,17 +83,15 @@ export default function SignupForm() {
               required
             />
           </FieldContent>
-          {/* <FieldError>Email is required</FieldError> */}
         </Field>
         <Field>
           <FieldLabel className="text-xl pt-1" htmlFor="last_name">
             Last Name*
           </FieldLabel>
-          {/* <FieldDescription>Enter your registered email..</FieldDescription> */}
           <FieldContent>
             <Input
               id="last_name"
-              type="email"
+              type="text"
               value={lname}
               onChange={(e) => setLName(e.target.value)}
               placeholder="Wick"
@@ -72,13 +99,11 @@ export default function SignupForm() {
               required
             />
           </FieldContent>
-          {/* <FieldError>Email is required</FieldError> */}
         </Field>
         <Field>
           <FieldLabel className="text-xl pt-1" htmlFor="email">
             Email*
           </FieldLabel>
-          {/* <FieldDescription>Enter your registered email..</FieldDescription> */}
           <FieldContent>
             <Input
               id="email"
@@ -92,13 +117,11 @@ export default function SignupForm() {
               required
             />
           </FieldContent>
-          {/* <FieldError>Email is required</FieldError> */}
         </Field>
         <Field>
-          <FieldLabel className="text-xl pt-1" htmlFor="email">
+          <FieldLabel className="text-xl pt-1" htmlFor="password">
             Password*
           </FieldLabel>
-          {/* <FieldDescription>Enter your registered email..</FieldDescription> */}
           <FieldContent>
             <InputGroup className="h-12">
               <InputGroupInput
@@ -128,9 +151,12 @@ export default function SignupForm() {
               </InputGroupAddon>
             </InputGroup>
           </FieldContent>
-          {/* <FieldError>Password is required</FieldErssror> */}
         </Field>
-        <Button className="mt-3 h-12 w-full text-2xl" type="submit">
+        <Button
+          className="mt-3 h-12 w-full text-2xl"
+          type="submit"
+          disabled={handleCreateAccount.isLoading}
+        >
           Sign Up
         </Button>
         <p className="mt-6 text-slate-200">

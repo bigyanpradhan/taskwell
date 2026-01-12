@@ -17,6 +17,7 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "../ui/input-group";
+import { useLogin } from "@/handlers/mutations";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -27,9 +28,29 @@ export default function LoginForm() {
     setShowPassword(!showPassword);
   };
 
+  const handleLogin = useLogin();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!email || !password) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    console.log("Email:", email);
+    console.log("Password:", password);
+
+    handleLogin.mutate({ email, password });
+    setEmail("");
+    setPassword("");
+  };
+
   return (
     <div className="flex justify-center items-center h-screen">
-      <form className="p-10 lg:w-[600px] w-[450px] md:w-[500px] border-2 shadow-md shadow-slate-300 rounded-2xl">
+      <form
+        className="p-10 lg:w-[600px] w-[450px] md:w-[500px] border-2 shadow-md shadow-slate-300 rounded-2xl"
+        onSubmit={handleSubmit}
+      >
         <FieldDescription className="text-4xl text-whitesmoke font-bold text-center">
           Login
         </FieldDescription>
@@ -100,7 +121,11 @@ export default function LoginForm() {
             Forgot Password?
           </Link>
         </div>
-        <Button className="mt-3 h-12 w-full text-2xl" type="submit">
+        <Button
+          className="mt-3 h-12 w-full text-2xl"
+          type="submit"
+          disabled={handleLogin.isLoading}
+        >
           Login
         </Button>
         <p className="mt-6 text-slate-200">

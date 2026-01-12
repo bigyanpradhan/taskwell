@@ -7,7 +7,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
   return (
     <>
-      <div className="h-10 bg-gradient-to-r from-cyan-950 flex justify-between items-center">
+      <div className="relative bottom-0 h-10 bg-gradient-to-r from-cyan-950 flex justify-between items-center">
         <div>
           <Link
             href="/contactus"
