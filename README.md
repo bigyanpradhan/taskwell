@@ -69,6 +69,8 @@ It, currently, includes a complete authentication system and the dashboard with 
 
 None
 
+## Running the project
+
 ```bash
 # Backend
 npm install
