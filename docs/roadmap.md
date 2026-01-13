@@ -12,5 +12,6 @@
 ## Planned
 
 - Task CRUD
-- Role-based access
 - Pagination & filters
+- Search Features
+- ZOD implementation
