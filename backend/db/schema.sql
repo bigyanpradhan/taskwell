@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TYPE status as ENUM ('Pending', 'In Progress', 'Completed', 'Canceled');
+-- CREATE TYPE IF NOT EXISTS status as ENUM ('Pending', 'In Progress', 'Completed', 'Canceled');
 
 CREATE TABLE IF NOT EXISTS tasks (
     id SERIAL PRIMARY KEY,
@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS tasks (
     description TEXT NOT NULL,
     current_status status DEFAULT 'Pending',
     due_date TIMESTAMP NOT NULL,
+    userId INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

@@ -12,14 +12,22 @@ import {
   SelectValue,
 } from "../ui/select";
 import { DatePicker } from "./datepicker";
-
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import AddEditModal from "./addEditModal";
+import { useState } from "react";
+import { DialogClose } from "@radix-ui/react-dialog";
 export default function Cards({
+  id,
   title,
   description,
   status,
   dueDate,
   onDelete,
-  onEdit,
 }) {
   const formattedDate = dueDate
     ? new Intl.DateTimeFormat("en-US", {
@@ -28,6 +36,14 @@ export default function Cards({
         year: "numeric",
       }).format(new Date(dueDate))
     : "No date";
+  const [selectedStatus, setSelectedStatus] = useState("");
+
+  const handleStatusChange = (e) => {
+    e.preventDefault();
+
+    setSelectedStatus(e.target.value);
+    console.log(e.target);
+  };
 
   return (
     <>
@@ -37,8 +53,8 @@ export default function Cards({
           <Select>
             <SelectTrigger className="w-[150px]">
               <SelectValue
-                placeholder={status ? status : "Select Status"}
-                onChange={(e) => setSelectedStatus(e.target.value)}
+                placeholder={status}
+                onChange={() => handleStatusChange}
               />
             </SelectTrigger>
             <SelectContent>
@@ -52,7 +68,7 @@ export default function Cards({
             </SelectContent>
           </Select>
         </div>
-        <p className=" mt-2 text-gray-600 h-30 overflow-hidden">
+        <p className=" mt-2 text-gray-400 h-30 overflow-hidden">
           {description}
         </p>
         <div className="flex justify-between items-center mt-4">
@@ -60,11 +76,26 @@ export default function Cards({
             <DatePicker dueDate={formattedDate} />
           </div>
           <div className="flex space-x-2">
-            <Button onClick={onEdit}>
-              <Edit />
-            </Button>
-            <Button onClick={onDelete}>
-              <Trash />
+            <Dialog>
+              <DialogTrigger className="bg-primary hover:bg-primary/90 text-black text-lg h-10 p-2 rounded-xl font-bold items-center">
+                <span className="text-center">
+                  <Edit />
+                </span>
+              </DialogTrigger>
+              <DialogContent className="w-[70%] border-2 shadow-md shadow-slate-300">
+                <DialogTitle className="text-center">EDIT NOTE</DialogTitle>
+                <AddEditModal
+                  taskData={{ id, title, description, status, dueDate }}
+                  type="edit"
+                />
+              </DialogContent>
+              <DialogClose id="edit-task-close"></DialogClose>
+            </Dialog>
+            <Button
+              className="bg-primary hover:bg-primary/90 text-black text-lg h-10 p-2 rounded-xl font-bold items-center"
+              onClick={onDelete}
+            >
+              <Trash className="size-5" />
             </Button>
           </div>
         </div>

@@ -11,23 +11,34 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-export function DatePicker({ dueDate }) {
-  const [date, setDate] = React.useState();
-
+export function DatePicker({ dueDate, onChange }) {
   return (
     <Popover className="">
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          data-empty={!date}
+          data-empty={!dueDate}
           className="data-[empty=true]:text-muted-foreground w-[180px] justify-start text-left font-normal"
         >
           <CalendarIcon />
-          {date ? format(date, "PPP") : <span> {dueDate}</span>}
+          <span>
+            {" "}
+            {dueDate
+              ? new Intl.DateTimeFormat("en-US", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                }).format(new Date(dueDate))
+              : "Select a Date"}
+          </span>
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
-        <Calendar mode="single" selected={date} onSelect={setDate} />
+        <Calendar
+          mode="single"
+          selected={dueDate ? new Date(dueDate) : undefined}
+          onSelect={onChange}
+        />
       </PopoverContent>
     </Popover>
   );

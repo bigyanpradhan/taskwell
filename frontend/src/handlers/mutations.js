@@ -1,13 +1,22 @@
 import {
+  createTask,
+  deleteTask,
+  getAllTasks,
+  updateTask,
+  updateTaskDueDate,
+  updateTaskStatus,
+} from "@/services/taskService";
+import {
   createAccount,
   loginUser,
   resetPassword,
   sendResetEmail,
 } from "@/services/userService";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
+// User Services Mutations
 export const useLogin = () => {
   const router = useRouter();
   return useMutation({
@@ -66,6 +75,112 @@ export const useResetPassword = (resetData) => {
       localStorage.removeItem("accessToken");
       router.push("/login");
       console.log("Password reset successful:", data);
+    },
+  });
+};
+
+// Task Services Mutations
+export const useCreateTask = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: createTask,
+    onMutate: () => {
+      console.log("Task creation Started");
+    },
+    onSuccess: () => {
+      toast.info("Task Created !!!");
+    },
+    onSettled: (_, error) => {
+      if (error) {
+        console.log(error);
+      } else {
+        queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      }
+    },
+  });
+};
+
+export const useUpdateTask = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: updateTask,
+    onMutate: () => {
+      console.log("Task update Started");
+    },
+    onSuccess: () => {
+      toast.info("Task Updated !!!");
+    },
+    onSettled: (_, error) => {
+      if (error) {
+        console.log(error);
+      } else {
+        queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      }
+    },
+  });
+};
+
+export const useUpdateTaskStatus = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: updateTaskStatus,
+    onMutate: () => {
+      console.log("Task status update Started");
+    },
+    onSuccess: () => {
+      toast.info("Task Status Updated !!!");
+    },
+    onSettled: (_, error) => {
+      if (error) {
+        console.log(error);
+      } else {
+        queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      }
+    },
+  });
+};
+
+export const useUpdateTaskDueDate = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: updateTaskDueDate,
+    onMutate: () => {
+      console.log("Task Due Date Mutation Started");
+    },
+    onSuccess: () => {
+      toast.info("Task Due Date Updated !!!");
+    },
+    onSettled: (_, error) => {
+      if (error) {
+        console.log(error);
+      } else {
+        queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      }
+    },
+  });
+};
+
+export const useDeleteTask = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: deleteTask,
+    onMutate: () => {
+      console.log("task deletion mutation started");
+    },
+    onSuccess: () => {
+      toast.info("Task Deleted");
+    },
+    onSettled: (_, error) => {
+      if (error) {
+        console.log(error);
+      } else {
+        queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      }
     },
   });
 };

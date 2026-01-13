@@ -10,20 +10,26 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
-  const token = localStorage.getItem("accessToken")
-    ? localStorage.getItem("accessToken")
-    : null;
   const router = useRouter();
-  let user;
-  if (token) {
-    const decoded = jwtDecode(token);
-    user = decoded
-      ? decoded.firstName.split("")[0].toUpperCase() +
-        decoded.lastName.split("")[0].toUpperCase()
-      : TU;
-  }
+
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken")
+      ? localStorage.getItem("accessToken")
+      : null;
+    if (token) {
+      const decoded = jwtDecode(token);
+      const initials =
+        decoded.firstName.split("")[0].toUpperCase() +
+        decoded.lastName.split("")[0].toUpperCase();
+
+      setUser(initials);
+    }
+  }, []);
 
   const handleDashboard = () => {
     router.push("/dashboard");
@@ -56,6 +62,7 @@ export default function Navbar() {
               <DropdownMenuItem
                 onClick={() => {
                   localStorage.clear();
+                  setUser(null);
                   router.push("/");
                 }}
               >

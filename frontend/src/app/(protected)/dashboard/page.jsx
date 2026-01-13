@@ -1,22 +1,31 @@
 "use client";
 
+import AddEditModal from "@/components/layout/addEditModal";
 import Cards from "@/components/layout/cards";
 import Footer from "@/components/layout/footer";
 import Navbar from "@/components/layout/navbar";
-import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { useDeleteTask } from "@/handlers/mutations";
+import { useGetAllTasks } from "@/handlers/queries";
+import { DialogClose } from "@radix-ui/react-dialog";
 import { jwtDecode } from "jwt-decode";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 
 export default function Dashboard({ params }) {
   const [authenticated, setAuthenticated] = useState(false);
   const router = useRouter();
-  const [openAddEditModal, setOpenAddEditModal] = useState({
-    isOpen: false,
-    data: null,
-    type: "add",
-  });
+
+  const { data = [], isLoading } = useGetAllTasks();
+  const [fname, setFname] = useState("");
+  const handleDeleteTask = useDeleteTask();
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -32,6 +41,7 @@ export default function Dashboard({ params }) {
       return router.push("/login");
     }
     setAuthenticated(true);
+    setFname(jwtDecode(localStorage.getItem("accessToken")).firstName);
   }, [router]);
 
   if (!authenticated) {
@@ -39,17 +49,7 @@ export default function Dashboard({ params }) {
   }
 
   const handleDelete = (task) => {
-    toast.info("Task deleted successfully", { type: "success" });
-    console.log("Delete task from dashboard");
-  };
-  const fname = jwtDecode(localStorage.getItem("accessToken")).firstName;
-  const handleEdit = (task) => {
-    setOpenAddEditModal({
-      isOpen: true,
-      data: null,
-      type: "edit",
-    });
-    console.log("Edit task from dashboard");
+    handleDeleteTask.mutate(task);
   };
 
   return (
@@ -58,63 +58,45 @@ export default function Dashboard({ params }) {
       <div className="p-10 min-h-screen relative">
         <div className="flex justify-between items-center mb-4">
           <h1 className="mb-2 font-extrabold text-2xl">Hello, {fname}</h1>
-          <Button
-            className="text-lg h-10 p-2 rounded-2xl"
-            onClick={() => {
-              setOpenAddEditModal({
-                isOpen: true,
-                data: null,
-                type: "add",
-              });
-            }}
-          >
-            <span className="plus">+ Add Task</span>
-          </Button>
+          <Dialog>
+            <DialogContent className="w-[70%] border-2 shadow-md shadow-slate-300">
+              <DialogTitle className="text-center">ADD NOTE</DialogTitle>
+              <AddEditModal type="add" />
+            </DialogContent>
+            <DialogClose id="task-close"></DialogClose>
+            <DialogTrigger className="bg-primary hover:bg-primary/90 text-black text-lg h-10 p-2 rounded-xl font-bold items-center">
+              <span className="text-center">+ Add Task</span>
+            </DialogTrigger>
+          </Dialog>
         </div>
         <div className="grid lg:grid-cols-3 gap-4 md:grid-cols-2 sm:grid-cols-1">
-          <Cards
-            key="1"
-            title="Task Title"
-            description="Task Description"
-            status="Pending"
-            dueDate="2023-12-31"
-            onDelete={handleDelete}
-            onEdit={handleEdit}
-          />
-          <Cards
-            key="2"
-            title="Task Title"
-            description="Task Description"
-            status="Pending"
-            dueDate="2023-12-31"
-          />
-          <Cards
-            title="Task Title"
-            description="Task Description"
-            status="Pending"
-            dueDate="2023-12-31"
-          />
-          <Cards
-            title="Task Title"
-            description="Task Description"
-            status="Pending"
-            dueDate="2023-12-31"
-          />
-          <Cards
-            title="Task Title"
-            description="Task Description"
-            status="Pending"
-            dueDate="2023-12-31"
-          />
-          <Cards
-            title="Task Title"
-            description="Task Description"
-            status="Pending"
-            dueDate="2023-12-31"
-          />
+          {data.length > 0 ? (
+            data.map((task) => {
+              return (
+                <Cards
+                  key={task.id}
+                  id={task.id}
+                  title={task.title}
+                  description={task.description}
+                  status={task.current_status}
+                  dueDate={task.due_date}
+                  onDelete={() => handleDelete(task)}
+                />
+              );
+            })
+          ) : (
+            <span>Add Tasks</span>
+          )}
         </div>
       </div>
-      <div></div>
+      <div className="flex justify-around mt-0 mb-4">
+        <Link className="underline" href="">
+          PREV
+        </Link>
+        <Link className="underline" href="">
+          NEXT
+        </Link>
+      </div>
       <Footer />
     </div>
   );
