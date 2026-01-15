@@ -1,7 +1,7 @@
-import { z } from "zod";
-import { emailValidation, passwordValidation } from "./loginSchema";
+const { z } = require("zod");
+const { emailValidation, passwordValidation } = require("./loginSchema");
 
-export const signUpSchema = z.object({
+const signUpSchema = z.object({
   firstName: z
     .string({
       required_error: "Firstname is mandatory.",
@@ -15,3 +15,7 @@ export const signUpSchema = z.object({
   email: emailValidation,
   password: passwordValidation,
 });
+
+module.exports = {
+  signUpSchema,
+};

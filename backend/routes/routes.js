@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const {
-  sample,
   userSignUp,
   userSignIn,
   changePassword,
@@ -22,7 +21,6 @@ const {
   authenticateResetToken,
 } = require("../middleware/authenticator");
 
-router.get("/", sample);
 //USER CONTROLLERS
 router.post("/login", userSignIn);
 router.post("/create-account", userSignUp);

@@ -7,21 +7,27 @@ import { Button } from "../ui/button";
 import { ArrowBigLeftDash } from "lucide-react";
 import Link from "next/link";
 import { useSendResetEmail } from "@/handlers/mutations";
+import { emailValidation } from "@/schemas/loginSchema";
 
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
+  const [error, setError] = useState({});
 
   const handleSendEmail = useSendResetEmail();
 
   const sendResetReq = (e) => {
     e.preventDefault();
 
-    if (!email) {
-      alert("Please enter your registered email.");
+    const result = emailValidation.safeParse(email);
+    console.log(result);
+    if (!result.success) {
+      setError({
+        email: result.error.issues[0].message,
+      });
       return;
     }
 
-    console.log("Email", email);
+    setError({});
 
     handleSendEmail.mutate({ email });
 
@@ -50,17 +56,16 @@ export default function ForgotPasswordForm() {
           <FieldContent>
             <Input
               id="email"
-              type="email"
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
               placeholder="john.wick@continental.com"
               className="h-12 pt-4 pb-5"
-              required
             />
           </FieldContent>
         </Field>
+        {error.email && <p className="text-red-600 text-sm">{error.email}</p>}
         <p className="mt-2 text-xs text-slate-400 text-justify">
           An email will be sent to you with instructions if the email you have
           provided is already registered.

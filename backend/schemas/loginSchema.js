@@ -1,9 +1,10 @@
-import { z } from "zod";
+const { z } = require("zod");
 
-export const emailValidation = z.email({
+const emailValidation = z.email({
   message: "Invalid Email Address",
 });
-export const passwordValidation = z
+
+const passwordValidation = z
   .string()
   .min(8, {
     message: "Password must be at least 8 characters long.",
@@ -13,7 +14,13 @@ export const passwordValidation = z
       "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, and one number.",
   });
 
-export const loginSchema = z.object({
+const loginSchema = z.object({
   email: emailValidation,
   password: passwordValidation,
 });
+
+module.exports = {
+  emailValidation,
+  passwordValidation,
+  loginSchema,
+};

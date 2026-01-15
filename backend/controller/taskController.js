@@ -1,28 +1,36 @@
 const Task = require("../models/taskModel");
+const { taskSchema } = require("../schemas/taskSchema");
 
 const createTask = async (req, res) => {
-  try {
-    const { title, description, status, dueDate } = req.body;
-    const user = req.user;
+  const { title, description, status, dueDate } = req.body;
 
-    if (!title || !dueDate || !description) {
-      return res.json({ message: "All fields are required." });
+  const result = taskSchema.safeParse({ title, description, status, dueDate });
+
+  if (result.success) {
+    try {
+      const user = req.user;
+
+      if (!title || !dueDate || !description) {
+        return res.json({ message: "All fields are required." });
+      }
+
+      const response = await Task.createTask(
+        title,
+        description,
+        status,
+        user.id,
+        dueDate
+      );
+
+      return res.json({
+        message: "Task Created",
+        task: response,
+      });
+    } catch (error) {
+      return res.json({ error: "Internal Server Error", msg: error.message });
     }
-
-    const response = await Task.createTask(
-      title,
-      description,
-      status,
-      user.id,
-      dueDate
-    );
-
-    return res.json({
-      message: "Task Created",
-      task: response,
-    });
-  } catch (error) {
-    return res.json({ error: "Internal Server Error", msg: error.message });
+  } else {
+    return res.json({ message: "The inputs are invalid." });
   }
 };
 
@@ -68,18 +76,25 @@ const getSingleTask = async (req, res) => {
 };
 
 const updateTasks = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const updates = req.body;
-    const user = req.user;
+  const updates = req.body;
+  const { title, description, status, dueDate } = updates;
+  const result = taskSchema.safeParse({ title, description, status, dueDate });
 
-    const response = await Task.updateTask(id, user.id, updates);
-    return res.json({
-      message: "Updated the task Successfully",
-      note: response,
-    });
-  } catch (error) {
-    return res.json({ error: "Internal Server Error", msg: error.message });
+  if (result.success) {
+    try {
+      const { id } = req.params;
+      const user = req.user;
+
+      const response = await Task.updateTask(id, user.id, updates);
+      return res.json({
+        message: "Updated the task Successfully",
+        note: response,
+      });
+    } catch (error) {
+      return res.json({ error: "Internal Server Error", msg: error.message });
+    }
+  } else {
+    return res.json({ message: "The inputs are not valid." });
   }
 };
 
