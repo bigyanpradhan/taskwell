@@ -47,7 +47,6 @@ export default function ForgotPasswordForm() {
           <FieldLabel className="text-xl pt-8" htmlFor="email">
             Enter you registered email
           </FieldLabel>
-          {/* <FieldDescription>Enter your registered email..</FieldDescription> */}
           <FieldContent>
             <Input
               id="email"
@@ -61,7 +60,6 @@ export default function ForgotPasswordForm() {
               required
             />
           </FieldContent>
-          {/* <FieldError>Email is required</FieldError> */}
         </Field>
         <p className="mt-2 text-xs text-slate-400 text-justify">
           An email will be sent to you with instructions if the email you have

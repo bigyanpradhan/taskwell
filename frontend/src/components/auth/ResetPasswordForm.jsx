@@ -68,7 +68,6 @@ export default function ResetPasswordForm() {
           <FieldLabel className="text-xl pt-8" htmlFor="nPassword">
             New Password
           </FieldLabel>
-          {/* <FieldDescription>Enter your registered email..</FieldDescription> */}
           <FieldContent>
             <InputGroup className="h-12 ">
               <InputGroupInput
@@ -98,13 +97,11 @@ export default function ResetPasswordForm() {
               </InputGroupAddon>
             </InputGroup>
           </FieldContent>
-          {/* <FieldError>Email is required</FieldError> */}
         </Field>
         <Field>
           <FieldLabel className="text-xl pt-8" htmlFor="cPassword">
             Confirm Password
           </FieldLabel>
-          {/* <FieldDescription>Enter your registered email..</FieldDescription> */}
           <FieldContent>
             <InputGroup className="h-12 ">
               <InputGroupInput
@@ -134,7 +131,6 @@ export default function ResetPasswordForm() {
               </InputGroupAddon>
             </InputGroup>
           </FieldContent>
-          {/* <FieldError>Email is required</FieldError> */}
         </Field>
         <p className="mt-2 text-xs text-slate-400 text-justify">
           You will be required to login again after changing your password.

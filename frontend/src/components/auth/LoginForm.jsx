@@ -18,11 +18,13 @@ import {
   InputGroupInput,
 } from "../ui/input-group";
 import { useLogin } from "@/handlers/mutations";
+import { loginSchema } from "@/schemas/loginSchema";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState({});
 
   const togglePassword = () => {
     setShowPassword(!showPassword);
@@ -32,14 +34,19 @@ export default function LoginForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!email || !password) {
-      alert("Please fill in all required fields.");
+    const result = loginSchema.safeParse({ email, password });
+    if (!result.success) {
+      const fieldErrors = result.error.issues.reduce((acc, err) => {
+        const field = err.path[0];
+        if (!acc[field]) {
+          acc[field] = err.message;
+        }
+        return acc;
+      }, {});
+      setError(fieldErrors);
       return;
     }
-
-    console.log("Email:", email);
-    console.log("Password:", password);
-
+    setError({});
     handleLogin.mutate({ email, password });
     setEmail("");
     setPassword("");
@@ -61,7 +68,6 @@ export default function LoginForm() {
           <FieldLabel className="text-xl pt-1" htmlFor="email">
             Email*
           </FieldLabel>
-          {/* <FieldDescription>Enter your registered email..</FieldDescription> */}
           <FieldContent>
             <Input
               id="email"
@@ -72,16 +78,15 @@ export default function LoginForm() {
               }}
               placeholder="john.wick@continental.com"
               className="h-12 pt-4 pb-5"
-              required
             />
           </FieldContent>
-          {/* <FieldError>Email is required</FieldError> */}
         </Field>
+        {error.email && <p className="text-sm text-red-600">{error.email}</p>}
+
         <Field>
           <FieldLabel className="text-xl pt-1" htmlFor="email">
             Password*
           </FieldLabel>
-          {/* <FieldDescription>Enter your registered email..</FieldDescription> */}
           <FieldContent>
             <InputGroup className="h-12">
               <InputGroupInput
@@ -93,7 +98,6 @@ export default function LoginForm() {
                 }}
                 placeholder="Password"
                 className="pt-4 pb-5"
-                required
                 minLength="8"
               />
               <InputGroupAddon align="inline-end">
@@ -111,7 +115,11 @@ export default function LoginForm() {
               </InputGroupAddon>
             </InputGroup>
           </FieldContent>
-          {/* <FieldError>Password is required</FieldError> */}
+          <FieldError>
+            {error.password && (
+              <p className="text-sm text-red-600">{error.password}</p>
+            )}
+          </FieldError>
         </Field>
         <div className="pt-2 text-center">
           <Link

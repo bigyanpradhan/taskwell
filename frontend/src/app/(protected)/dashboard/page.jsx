@@ -10,6 +10,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useDeleteTask } from "@/handlers/mutations";
 import { useGetAllTasks } from "@/handlers/queries";
 import { DialogClose } from "@radix-ui/react-dialog";
@@ -17,13 +26,14 @@ import { jwtDecode } from "jwt-decode";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
 
-export default function Dashboard({ params }) {
+export default function Dashboard() {
   const [authenticated, setAuthenticated] = useState(false);
   const router = useRouter();
+  const [sortBy, setSortBy] = useState("date");
 
-  const { data = [], isLoading } = useGetAllTasks();
+  const { data = [] } = useGetAllTasks();
+  const [sortedTasks, setSortedTasks] = useState([]);
   const [fname, setFname] = useState("");
   const handleDeleteTask = useDeleteTask();
 
@@ -44,6 +54,17 @@ export default function Dashboard({ params }) {
     setFname(jwtDecode(localStorage.getItem("accessToken")).firstName);
   }, [router]);
 
+  useEffect(() => {
+    let copy = [...data];
+    if (sortBy === "date") {
+      copy.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+    }
+    if (sortBy === "title") {
+      copy.sort((a, b) => a.title.localeCompare(b.title));
+    }
+    setSortedTasks(copy);
+  }, [sortBy, data]);
+
   if (!authenticated) {
     return null;
   }
@@ -58,20 +79,35 @@ export default function Dashboard({ params }) {
       <div className="p-10 min-h-screen relative">
         <div className="flex justify-between items-center mb-4">
           <h1 className="mb-2 font-extrabold text-2xl">Hello, {fname}</h1>
+          <div>
+            <Select value={sortBy} onValueChange={setSortBy}>
+              <SelectTrigger>
+                <SelectValue placeholder="Sort By" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Sort By:</SelectLabel>
+                  <SelectItem value="date">Sort By: Date</SelectItem>
+                  <SelectItem value="title">Sort By: Title</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+
           <Dialog>
             <DialogContent className="w-[70%] border-2 shadow-md shadow-slate-300">
-              <DialogTitle className="text-center">ADD NOTE</DialogTitle>
+              <DialogTitle className="text-center">ADD TASK</DialogTitle>
               <AddEditModal type="add" />
             </DialogContent>
             <DialogClose id="task-close"></DialogClose>
             <DialogTrigger className="bg-primary hover:bg-primary/90 text-black text-lg h-10 p-2 rounded-xl font-bold items-center">
-              <span className="text-center">+ Add Task</span>
+              <span className="text-center">Add Task</span>
             </DialogTrigger>
           </Dialog>
         </div>
         <div className="grid lg:grid-cols-3 gap-4 md:grid-cols-2 sm:grid-cols-1">
-          {data.length > 0 ? (
-            data.map((task) => {
+          {sortedTasks.length > 0 ? (
+            sortedTasks.map((task) => {
               return (
                 <Cards
                   key={task.id}
@@ -89,14 +125,14 @@ export default function Dashboard({ params }) {
           )}
         </div>
       </div>
-      <div className="flex justify-around mt-0 mb-4">
+      {/* <div className="flex justify-around mt-0 mb-4">
         <Link className="underline" href="">
           PREV
         </Link>
         <Link className="underline" href="">
           NEXT
         </Link>
-      </div>
+      </div> */}
       <Footer />
     </div>
   );

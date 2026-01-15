@@ -11,10 +11,11 @@ const {
   createTask,
   getTasks,
   updateTasks,
-  updateStatus,
-  updateDueDate,
   deleteTasks,
   searchTasks,
+  updateStatus,
+  updateDueDate,
+  getSingleTask,
 } = require("../controller/taskController");
 const {
   authenticateToken,
@@ -29,12 +30,15 @@ router.patch("/reset-password", authenticateResetToken, changePassword);
 router.post("/send-email", sendEmail);
 
 //TASK CONTROLLERSupdate
-router.get("/getTasks", authenticateToken, getTasks);
-router.post("/createTask", authenticateToken, createTask);
-router.put("/updateTask", authenticateToken, updateTasks);
-router.patch("/updateStatus", authenticateToken, updateStatus);
-router.patch("/updateDueDate", authenticateToken, updateDueDate);
-router.delete("/deleteTask", authenticateToken, deleteTasks);
+router.get("/tasks", authenticateToken, getTasks);
+router.post("/tasks", authenticateToken, createTask);
+router.put("/tasks/:id", authenticateToken, updateTasks);
+router.delete("/tasks/:id", authenticateToken, deleteTasks);
+router.get("/gettasks/:id", authenticateToken, getSingleTask);
+
 // router.get('/searchTasks', authenticateToken, searchTasks);
+
+// router.patch("/updateStatus", authenticateToken, updateStatus);
+// router.patch("/updateDueDate", authenticateToken, updateDueDate);
 
 module.exports = router;

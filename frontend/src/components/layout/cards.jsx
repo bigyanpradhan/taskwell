@@ -5,9 +5,6 @@ import { Button } from "../ui/button";
 import {
   Select,
   SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
@@ -19,7 +16,6 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import AddEditModal from "./addEditModal";
-import { useState } from "react";
 import { DialogClose } from "@radix-ui/react-dialog";
 export default function Cards({
   id,
@@ -36,44 +32,29 @@ export default function Cards({
         year: "numeric",
       }).format(new Date(dueDate))
     : "No date";
-  const [selectedStatus, setSelectedStatus] = useState("");
-
-  const handleStatusChange = (e) => {
-    e.preventDefault();
-
-    setSelectedStatus(e.target.value);
-    console.log(e.target);
-  };
 
   return (
     <>
-      <div className="bg-gray-800 p-4 mt-2 rounded-3xl shadow-md">
-        <div className="flex justify-between items-center ">
-          <h3 className="text-lg font-semibold">{title}</h3>
-          <Select>
-            <SelectTrigger className="w-[150px]">
-              <SelectValue
-                placeholder={status}
-                onChange={() => handleStatusChange}
-              />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Task Status</SelectLabel>
-                <SelectItem value="Pending">Pending</SelectItem>
-                <SelectItem value="In Progress">In Progress</SelectItem>
-                <SelectItem value="Completed">Completed</SelectItem>
-                <SelectItem value="Canceled">Cancelled</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+      <div className="bg-gray-800 w-auto h-60 p-4 mt-2 rounded-3xl shadow-md">
+        <div>
+          <div className="flex justify-between items-center ">
+            <h3 className="text-lg truncate max-w-80 w-auto font-semibold">
+              {title}
+            </h3>
+            <Select>
+              <SelectTrigger className="w-[150px]">
+                <SelectValue placeholder={status} />
+              </SelectTrigger>
+              <SelectContent></SelectContent>
+            </Select>
+          </div>
+          <p className=" mt-2 text-gray-400 text-ellipsis h-27 overflow-auto">
+            {description}
+          </p>
         </div>
-        <p className=" mt-2 text-gray-400 h-30 overflow-hidden">
-          {description}
-        </p>
-        <div className="flex justify-between items-center mt-4">
+        <div className="flex justify-between items-center mt-4 self-end">
           <div className="text-sm text-gray-500">
-            <DatePicker dueDate={formattedDate} />
+            <DatePicker disabled={true} dueDate={formattedDate} />
           </div>
           <div className="flex space-x-2">
             <Dialog>
@@ -87,6 +68,9 @@ export default function Cards({
                 <AddEditModal
                   taskData={{ id, title, description, status, dueDate }}
                   type="edit"
+                  onClose={() => {
+                    setIsOpen(true);
+                  }}
                 />
               </DialogContent>
               <DialogClose id="edit-task-close"></DialogClose>

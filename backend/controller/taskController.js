@@ -16,7 +16,6 @@ const createTask = async (req, res) => {
       user.id,
       dueDate
     );
-    console.log(response);
 
     return res.json({
       message: "Task Created",
@@ -45,15 +44,53 @@ const getTasks = async (req, res) => {
   }
 };
 
+const getSingleTask = async (req, res) => {
+  try {
+    const user = req.user;
+    const { id } = req.params;
+
+    const response = await Task.getOneTask(id, user.id);
+    console.log(response);
+    if (!response) {
+      return res.status(404).json({
+        message: "Requested resource not found for this user",
+      });
+    }
+    return res.json({
+      message: "Task found for user",
+      task: response,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal Server Error.",
+    });
+  }
+};
+
 const updateTasks = async (req, res) => {
   try {
+    const { id } = req.params;
     const updates = req.body;
     const user = req.user;
 
-    const response = await Task.updateTask(updates.id, user.id, updates);
+    const response = await Task.updateTask(id, user.id, updates);
     return res.json({
       message: "Updated the task Successfully",
       note: response,
+    });
+  } catch (error) {
+    return res.json({ error: "Internal Server Error", msg: error.message });
+  }
+};
+
+const deleteTasks = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = req.user;
+
+    const response = await Task.deleteTasks(id, user.id);
+    return res.json({
+      message: "Deleted Task",
     });
   } catch (error) {
     return res.json({ error: "Internal Server Error", msg: error.message });
@@ -87,20 +124,6 @@ const updateDueDate = async (req, res) => {
   }
 };
 
-const deleteTasks = async (req, res) => {
-  try {
-    const { id } = req.body;
-    const user = req.user;
-
-    const response = await Task.deleteTasks(id, user.id);
-    return res.json({
-      message: "Deleted Task",
-    });
-  } catch (error) {
-    return res.json({ error: "Internal Server Error", msg: error.message });
-  }
-};
-
 const searchTasks = async (req, res) => {
   try {
   } catch (error) {
@@ -116,4 +139,5 @@ module.exports = {
   updateDueDate,
   deleteTasks,
   searchTasks,
+  getSingleTask,
 };

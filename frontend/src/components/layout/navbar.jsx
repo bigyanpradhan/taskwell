@@ -21,7 +21,7 @@ export default function Navbar() {
     const token = localStorage.getItem("accessToken")
       ? localStorage.getItem("accessToken")
       : null;
-    if (token) {
+    if (token && token !== "undefined") {
       const decoded = jwtDecode(token);
       const initials =
         decoded.firstName.split("")[0].toUpperCase() +

@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -11,14 +10,15 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-export function DatePicker({ dueDate, onChange }) {
+export function DatePicker({ dueDate, onChange, disabled }) {
   return (
     <Popover className="">
       <PopoverTrigger asChild>
         <Button
           variant="outline"
           data-empty={!dueDate}
-          className="data-[empty=true]:text-muted-foreground w-[180px] justify-start text-left font-normal"
+          disabled={disabled}
+          className="text-white w-[180px] justify-start text-left font-normal"
         >
           <CalendarIcon />
           <span>

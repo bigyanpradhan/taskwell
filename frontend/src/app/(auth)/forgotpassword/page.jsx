@@ -7,7 +7,7 @@ import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function ForgotPassword({ params }) {
+export default function ForgotPassword() {
   const [authenticated, setAuthenticated] = useState(true);
   const router = useRouter();
 
