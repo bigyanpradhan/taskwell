@@ -5,14 +5,14 @@ function authenticateToken(req, res, next) {
   const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
-    return res.json({
+    return res.status(401).json({
       message: "Token not found",
     });
   }
 
   jwt.verify(token, process.env.JWT_SECRET_KEY, (err, user) => {
     if (err) {
-      return res.json({
+      return res.status(401).json({
         message: "invalid token",
       });
     }
@@ -24,17 +24,16 @@ function authenticateToken(req, res, next) {
 function authenticateResetToken(req, res, next) {
   const token = req.body.token
     ? req.body.token
-    : req.headers["Authorization"].split(" ")[1];
+    : req.headers["authorization"].split(" ")[1];
 
   if (!token) {
-    return res.json({ message: "Token not found" });
+    return res.status(401).json({ message: "Token not found" });
   }
   jwt.verify(token, process.env.JWT_SECRET_KEY, (err, user) => {
     if (err) {
-      return res.json({ message: "Invalid or expired token" });
+      return res.status(401).json({ message: "Invalid or expired token" });
     }
     req.user = user;
-    console.log("Reset token is valid:", user);
     next();
   });
 }

@@ -34,7 +34,6 @@ export const useLogin = () => {
     },
     onError: (error) => {
       toast.info("Login Failed. Please check your credentials.");
-      console.error("Login failed:", error);
     },
   });
 };
@@ -47,9 +46,12 @@ export const useSignUp = () => {
       console.log("Create account mutation started");
     },
     onSuccess: (data) => {
-      console.log("SignIn successful:", data);
       localStorage.setItem("accessToken", data.accessToken);
+      toast.success("Sign-Up Successful!");
       router.push("/dashboard");
+    },
+    onError: (error) => {
+      toast.info("Sign Up Failed!");
     },
   });
 };
@@ -61,7 +63,10 @@ export const useSendResetEmail = () => {
       console.log("Send reset email mutation started");
     },
     onSuccess: (data) => {
-      console.log("Reset email sent successfully");
+      toast.success("Email Sent Successfully!");
+    },
+    onError: (error) => {
+      toast.info("Failed to send the email.");
     },
   });
 };
@@ -76,8 +81,11 @@ export const useResetPassword = () => {
     onSuccess: () => {
       localStorage.removeItem("resetToken");
       localStorage.removeItem("accessToken");
+      toast.success("Password Reset Successful!");
       router.push("/login");
-      console.log("Password reset successful");
+    },
+    onError: (error) => {
+      toast.info("Failed to reset password!");
     },
   });
 };
@@ -92,11 +100,11 @@ export const useCreateTask = () => {
       console.log("Task creation Started");
     },
     onSuccess: () => {
-      toast.info("Task Created !!!");
+      toast.success("Task Created Successfully!");
     },
     onSettled: (_, error) => {
       if (error) {
-        console.log(error);
+        toast.info("Failed to create the task!");
       } else {
         queryClient.invalidateQueries({ queryKey: ["tasks"] });
       }
@@ -113,11 +121,11 @@ export const useUpdateTask = () => {
       console.log("Task update Started");
     },
     onSuccess: () => {
-      toast.info("Task Updated !!!");
+      toast.success("Task Updated Successfully!");
     },
     onSettled: (_, error) => {
       if (error) {
-        console.log(error);
+        toast.info("Failed to update the task!");
       } else {
         queryClient.invalidateQueries({ queryKey: ["tasks"] });
       }
@@ -134,54 +142,11 @@ export const useDeleteTask = () => {
       console.log("task deletion mutation started");
     },
     onSuccess: () => {
-      toast.info("Task Deleted");
+      toast.success("Task Deleted Successfully!");
     },
     onSettled: (_, error) => {
       if (error) {
-        console.log(error);
-      } else {
-        queryClient.invalidateQueries({ queryKey: ["tasks"] });
-      }
-    },
-  });
-};
-
-// Not Implemented
-export const useUpdateTaskStatus = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: updateTaskStatus,
-    onMutate: () => {
-      console.log("Task status update Started");
-    },
-    onSuccess: () => {
-      toast.info("Task Status Updated !!!");
-    },
-    onSettled: (_, error) => {
-      if (error) {
-        console.log(error);
-      } else {
-        queryClient.invalidateQueries({ queryKey: ["tasks"] });
-      }
-    },
-  });
-};
-
-export const useUpdateTaskDueDate = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: updateTaskDueDate,
-    onMutate: () => {
-      console.log("Task Due Date Mutation Started");
-    },
-    onSuccess: () => {
-      toast.info("Task Due Date Updated !!!");
-    },
-    onSettled: (_, error) => {
-      if (error) {
-        console.log(error);
+        toast.info("Task Deletion Failed!");
       } else {
         queryClient.invalidateQueries({ queryKey: ["tasks"] });
       }

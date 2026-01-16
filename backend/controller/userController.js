@@ -22,7 +22,7 @@ const userSignUp = async (req, res) => {
   if (result.success) {
     try {
       if (!firstName || !lastName || !email || !password) {
-        return res.json({
+        return res.status(400).json({
           message:
             "All fields 'firstName, lastName, email, password' are required.",
         });
@@ -31,7 +31,9 @@ const userSignUp = async (req, res) => {
       const userExists = await User.findByEmail(email);
 
       if (userExists) {
-        return res.json({ message: "User with this email already exists" });
+        return res
+          .status(409)
+          .json({ message: "User with this email already exists" });
       }
 
       const user = await User.create(firstName, lastName, email, password);
@@ -49,7 +51,7 @@ const userSignUp = async (req, res) => {
         }
       );
 
-      return res.json({
+      return res.status(201).json({
         message: "Account creation successful",
         user: {
           id: user.id,
@@ -64,7 +66,7 @@ const userSignUp = async (req, res) => {
       return res.status(500).json({ message: "Internal server error" });
     }
   } else {
-    return res.json({ message: "The input isn't valid." });
+    return res.status(422).json({ message: "The input isn't valid." });
   }
 };
 
@@ -76,21 +78,21 @@ const userSignIn = async (req, res) => {
   if (result.success) {
     try {
       if (!email || !password) {
-        return res.json({
+        return res.status(409).json({
           message: 'All fields"email, password" are required.',
         });
       }
 
       const user = await User.findByEmail(email);
       if (!user) {
-        return res.json({
+        return res.status(401).json({
           message: "No user found with this email.",
         });
       }
 
       const passwordMatch = await bcrypt.compare(password, user.password_hash);
       if (!passwordMatch) {
-        return res.json({
+        return res.status(401).json({
           message: "Invalid Password",
         });
       }
@@ -108,7 +110,7 @@ const userSignIn = async (req, res) => {
         }
       );
 
-      return res.json({
+      return res.status(200).json({
         message: "Login Successful.",
         user: {
           id: user.id,
@@ -122,7 +124,7 @@ const userSignIn = async (req, res) => {
       console.log("Error during account creation", error.message);
     }
   } else {
-    return res.json({ message: "The inputs are invalid." });
+    return res.status(422).json({ message: "The inputs are invalid." });
   }
 };
 
@@ -134,13 +136,13 @@ const sendEmail = async (req, res) => {
   if (result.success) {
     try {
       if (!email) {
-        return res.json({
+        return res.status(400).json({
           message: "Email is required.",
         });
       }
       const user = await User.findByEmail(email);
       if (!user) {
-        return res.json({
+        return res.status(400).json({
           message: "No user found with this email.",
         });
       }
@@ -152,7 +154,7 @@ const sendEmail = async (req, res) => {
         },
         process.env.JWT_SECRET_KEY,
         {
-          expiresIn: 300, // 5 minutes
+          expiresIn: 300,
         }
       );
 
@@ -186,7 +188,7 @@ const sendEmail = async (req, res) => {
         }
       );
 
-      return res.json({
+      return res.status(200).json({
         message: "Password reset email sent successfully.",
         info: mailResponse,
       });
@@ -194,7 +196,7 @@ const sendEmail = async (req, res) => {
       return res.status(500).json({ message: "Internal server error." });
     }
   } else {
-    return res.json({ message: "The input is invalid." });
+    return res.status(422).json({ message: "The input is invalid." });
   }
 };
 
@@ -222,7 +224,7 @@ const changePassword = async (req, res) => {
       return res.status(401).json({ message: "Invalid or expired token." });
     }
   } else {
-    return res.json({ message: result.error.issues[0].message });
+    return res.status(422).json({ message: result.error.issues[0].message });
   }
 };
 

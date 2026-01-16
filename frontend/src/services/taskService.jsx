@@ -12,6 +12,7 @@ export const getAllTasks = async () => {
 export const createTask = async (taskData) => {
   try {
     const response = await api.post("/tasks", taskData);
+    return response.data;
   } catch (error) {
     throw error;
   }
@@ -29,6 +30,18 @@ export const updateTask = async (updates) => {
 export const deleteTask = async (task) => {
   try {
     const response = await api.delete(`/tasks/${task.id}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const searchTask = async (searchTerm) => {
+  try {
+    const response = await api.get(
+      `/searchTasks?searchTerm=${encodeURIComponent(searchTerm)}`
+    );
+    return response.data.tasks;
   } catch (error) {
     throw error;
   }

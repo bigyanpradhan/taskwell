@@ -20,10 +20,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useDeleteTask } from "@/handlers/mutations";
-import { useGetAllTasks } from "@/handlers/queries";
+import { useGetAllTasks, useSearchTasks } from "@/handlers/queries";
+import { SearchContext } from "@/hooks/searchContext";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { jwtDecode } from "jwt-decode";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -32,10 +32,17 @@ export default function Dashboard() {
   const router = useRouter();
   const [sortBy, setSortBy] = useState("date");
 
-  const { data = [] } = useGetAllTasks();
+  const { data: allTask = [] } = useGetAllTasks();
   const [sortedTasks, setSortedTasks] = useState([]);
   const [fname, setFname] = useState("");
   const handleDeleteTask = useDeleteTask();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState(searchTerm);
+
+  const { data: searchedTask = [] } = useSearchTasks(
+    debouncedSearch,
+    !!debouncedSearch
+  );
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -55,7 +62,22 @@ export default function Dashboard() {
   }, [router]);
 
   useEffect(() => {
-    let copy = [...data];
+    const handler = setTimeout(() => {
+      setDebouncedSearch(searchTerm);
+    }, 1000);
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchTerm]);
+
+  const handleClear = () => {
+    setSearchTerm("");
+    return;
+  };
+
+  useEffect(() => {
+    let copy = debouncedSearch.trim() ? [...searchedTask] : [...allTask];
+    console.log(copy);
     if (sortBy === "date") {
       copy.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
     }
@@ -63,7 +85,7 @@ export default function Dashboard() {
       copy.sort((a, b) => a.title.localeCompare(b.title));
     }
     setSortedTasks(copy);
-  }, [sortBy, data]);
+  }, [sortBy, allTask, searchedTask, debouncedSearch]);
 
   if (!authenticated) {
     return null;
@@ -75,7 +97,11 @@ export default function Dashboard() {
 
   return (
     <div>
-      <Navbar />
+      <SearchContext.Provider
+        value={{ searchTerm, setSearchTerm, handleClear }}
+      >
+        <Navbar />
+      </SearchContext.Provider>
       <div className="p-10 min-h-screen relative">
         <div className="flex justify-between items-center mb-4">
           <h1 className="mb-2 font-extrabold text-2xl">Hello, {fname}</h1>

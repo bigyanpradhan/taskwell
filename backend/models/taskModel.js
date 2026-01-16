@@ -51,22 +51,13 @@ const Task = {
     return result.rows[0];
   },
 
-  updateStatus: async (taskId, userId, updatedStatus) => {
-    const query = `UPDATE tasks SET current_status = $1 WHERE id = $2 AND "userId" = $3
-    RETURNING id, title, description, current_status, due_date, "userId"`;
-    const values = [updatedStatus, taskId, userId];
+  searchTasks: async (searchTerm, userId) => {
+    const query = `SELECT * FROM tasks WHERE "userId" = $1 AND (title ILIKE $2 OR description ILIKE $2)`;
+    console.log(searchTerm);
+    const values = [userId, `%${searchTerm}%`];
 
     const result = await pool.query(query, values);
-    return result.rows[0];
-  },
-
-  updateDueDate: async (taskId, userId, updatedDueDate) => {
-    const query = `UPDATE tasks SET due_date = $1 WHERE id = $2 AND "userId" = $3
-    RETURNING id, title, description, current_status, due_date, "userId"`;
-    const values = [updatedDueDate, taskId, userId];
-
-    const result = await pool.query(query, values);
-    return result.rows[0];
+    return result.rows;
   },
 };
 

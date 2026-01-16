@@ -11,6 +11,7 @@ import {
 } from "../ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { SearchBar } from "./searchBar";
 
 export default function Navbar() {
   const router = useRouter();
@@ -41,39 +42,47 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="flex h-16 bg-gradient-to-r from-cyan-950 items-center justify-between">
-        <Link href="/" className="font-bold text-2xl italic p-4">
-          Task
-        </Link>
+      <div className="flex h-16 bg-gradient-to-r from-cyan-950 items-center">
         {user ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <div className="mr-6 w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center text-white font-bold">
-                {user}
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem onClick={handleDashboard}>
-                My Dashboard
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleResetPassword}>
-                Reset Password
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => {
-                  localStorage.clear();
-                  setUser(null);
-                  router.push("/");
-                }}
-              >
-                Logout
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="flex w-full gap-2 items-center justify-between">
+            <Link href="/" className="font-bold text-2xl italic p-4">
+              Task
+            </Link>
+            <SearchBar />
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <div className="mr-6 w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center text-white font-bold">
+                  {user}
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={handleDashboard}>
+                  My Dashboard
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleResetPassword}>
+                  Reset Password
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => {
+                    localStorage.clear();
+                    setUser(null);
+                    router.push("/");
+                  }}
+                >
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         ) : (
-          <Button className="m-4 w-20 font-bold shadow-md shadow-[#252525] cursor-pointer">
-            <Link href="/login">Login</Link>
-          </Button>
+          <div className="flex w-full gap-2 items-center justify-between">
+            <Link href="/" className="font-bold text-2xl italic p-4">
+              Task
+            </Link>
+            <Button className="m-4 w-20 font-bold shadow-md shadow-[#252525] cursor-pointer">
+              <Link href="/login">Login</Link>
+            </Button>
+          </div>
         )}
       </div>
     </>

@@ -17,7 +17,6 @@ import {
   InputGroupInput,
 } from "../ui/input-group";
 import { useSignUp } from "@/handlers/mutations";
-import { toast } from "sonner";
 import { signUpSchema } from "@/schemas/signUpSchema";
 
 export default function SignupForm() {

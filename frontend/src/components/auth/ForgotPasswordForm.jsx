@@ -19,7 +19,6 @@ export default function ForgotPasswordForm() {
     e.preventDefault();
 
     const result = emailValidation.safeParse(email);
-    console.log(result);
     if (!result.success) {
       setError({
         email: result.error.issues[0].message,

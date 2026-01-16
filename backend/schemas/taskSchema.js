@@ -14,4 +14,8 @@ const taskSchema = z.object({
   dueDate: z.iso.datetime({ message: "Choose a Due Date" }),
 });
 
-module.exports = { taskSchema };
+const taskSearchTerm = z
+  .string()
+  .min(1, { message: "Search term must be at least 1 character long." });
+
+module.exports = { taskSchema, taskSearchTerm };

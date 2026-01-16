@@ -12,8 +12,6 @@ const {
   updateTasks,
   deleteTasks,
   searchTasks,
-  updateStatus,
-  updateDueDate,
   getSingleTask,
 } = require("../controller/taskController");
 const {
@@ -33,10 +31,6 @@ router.post("/tasks", authenticateToken, createTask);
 router.put("/tasks/:id", authenticateToken, updateTasks);
 router.delete("/tasks/:id", authenticateToken, deleteTasks);
 router.get("/gettasks/:id", authenticateToken, getSingleTask);
-
-// router.get('/searchTasks', authenticateToken, searchTasks);
-
-// router.patch("/updateStatus", authenticateToken, updateStatus);
-// router.patch("/updateDueDate", authenticateToken, updateDueDate);
+router.get("/searchTasks", authenticateToken, searchTasks);
 
 module.exports = router;
