@@ -6,9 +6,9 @@ This is a fullstack web application built using **Next.js** for the frontend and
 It, currently, includes a complete authentication system and the dashboard with task management features is being worked on.
 
 Individual documentations locations:
-Frontend Documentation: frontend/README.md
-Backend Documentation: backend/README.md
-Database Documentation: backend/db/README.md
+- Frontend Documentation: frontend/README.md
+- Backend Documentation: backend/README.md
+- Database Documentation: backend/db/README.md
 
 ## Frontend Folder Structure
 
