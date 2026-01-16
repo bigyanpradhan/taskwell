@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- CREATE TYPE IF NOT EXISTS status as ENUM ('Pending', 'In Progress', 'Completed', 'Canceled');
+CREATE TYPE IF NOT EXISTS status as ENUM ('Pending', 'In Progress', 'Completed', 'Canceled');
 
 CREATE TABLE IF NOT EXISTS tasks (
     id SERIAL PRIMARY KEY,

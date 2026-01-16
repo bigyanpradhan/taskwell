@@ -44,7 +44,7 @@
 
 ## Bonus Features (Optional)
 
-- ⬜ Implement task search functionality
+- ✅ Implement task search functionality
 - ✅ Implement password reset functionality
 - ⬜ Add task comments/notes
 - ✅ Add task sorting options (by date)
