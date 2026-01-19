@@ -11,12 +11,12 @@ const app = express();
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  limit: 100,
+  limit: 115,
 });
 
 app.use(express.json());
 app.use(express.urlencoded());
-// app.use(limiter);
+app.use(limiter);
 app.use(
   cors({
     origin: "http://localhost:3000",
