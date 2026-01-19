@@ -9,7 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SearchBar } from "./searchBar";
 
@@ -17,6 +17,10 @@ export default function Navbar() {
   const router = useRouter();
 
   const [user, setUser] = useState(null);
+
+  const pathname = usePathname();
+
+  const showSearch = pathname.startsWith("/dashboard");
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken")
@@ -48,7 +52,7 @@ export default function Navbar() {
             <Link href="/" className="font-bold text-2xl italic p-4">
               Task
             </Link>
-            <SearchBar />
+            {showSearch && <SearchBar />}
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <div className="mr-6 w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center text-white font-bold">

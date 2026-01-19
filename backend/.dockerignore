@@ -1,0 +1,5 @@
+# The environment file.
+.env
+
+# NPM packages
+node_modules

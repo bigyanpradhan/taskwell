@@ -4,7 +4,6 @@ import AddEditModal from "@/components/layout/addEditModal";
 import Cards from "@/components/layout/cards";
 import Footer from "@/components/layout/footer";
 import Navbar from "@/components/layout/navbar";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -148,9 +147,9 @@ export default function Dashboard() {
             </DialogTrigger>
           </Dialog>
         </div>
-        <div className="grid lg:grid-cols-3 gap-4 md:grid-cols-2 sm:grid-cols-1">
-          {sortedTasks.length > 0 ? (
-            sortedTasks.map((task) => {
+        {sortedTasks.length > 0 ? (
+          <div className="grid lg:grid-cols-3 gap-4 md:grid-cols-2 sm:grid-cols-1">
+            {sortedTasks.map((task) => {
               return (
                 <Cards
                   key={task.id}
@@ -162,20 +161,22 @@ export default function Dashboard() {
                   onDelete={() => handleDelete(task)}
                 />
               );
-            })
-          ) : (
-            <></>
-          )}
-        </div>
+            })}
+          </div>
+        ) : (
+          <div className="flex justify-center align-center text-center">
+            <p className="relative top-50">
+              Can't find any tasks. You can add the tasks by clicking the Add
+              Task Button.
+            </p>
+          </div>
+        )}
       </div>
       <div className="mb-5 font-bold italic text-center" ref={ref}>
         {hasNextPage && isFetchingNextPage ? (
           <p>Loading ...</p>
         ) : sortedTasks.length === 0 ? (
-          <p>
-            Can't find any tasks. You can add the tasks by clicking the Add Task
-            Button.
-          </p>
+          <></>
         ) : (
           <p className="">All Tasks Loaded !!!</p>
         )}
