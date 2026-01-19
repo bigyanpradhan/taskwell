@@ -17,6 +17,7 @@ import {
 } from "../ui/dialog";
 import AddEditModal from "./addEditModal";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { useState } from "react";
 export default function Cards({
   id,
   title,
@@ -25,6 +26,7 @@ export default function Cards({
   dueDate,
   onDelete,
 }) {
+  const [open, setOpen] = useState(false);
   const formattedDate = dueDate
     ? new Intl.DateTimeFormat("en-US", {
         month: "long",
@@ -57,7 +59,7 @@ export default function Cards({
             <DatePicker disabled={true} dueDate={formattedDate} />
           </div>
           <div className="flex space-x-2">
-            <Dialog>
+            <Dialog open={open} onOpenChange={setOpen}>
               <DialogTrigger className="bg-primary hover:bg-primary/90 text-black text-lg h-10 p-2 rounded-xl font-bold items-center">
                 <span className="text-center">
                   <Edit />
@@ -69,11 +71,10 @@ export default function Cards({
                   taskData={{ id, title, description, status, dueDate }}
                   type="edit"
                   onClose={() => {
-                    setIsOpen(true);
+                    setOpen(false);
                   }}
                 />
               </DialogContent>
-              <DialogClose id="edit-task-close"></DialogClose>
             </Dialog>
             <Button
               className="bg-primary hover:bg-primary/90 text-black text-lg h-10 p-2 rounded-xl font-bold items-center"

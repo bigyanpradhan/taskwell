@@ -11,11 +11,14 @@ export default function Footer() {
         <div>
           <Link
             href="/contactus"
-            className="underline pl-8 pr-4 hover:text-slate-400"
+            className="underline pl-8 pr-4 hover:text-slate-400 disabled"
           >
             Contact Us
           </Link>
-          <Link href="/aboutus" className="underline hover:text-slate-400">
+          <Link
+            href="/aboutus"
+            className="underline hover:text-slate-400 disabled"
+          >
             About Us
           </Link>
         </div>

@@ -18,7 +18,7 @@ import { Button } from "../ui/button";
 import { useCreateTask, useUpdateTask } from "@/handlers/mutations";
 import { taskSchema } from "@/schemas/taskSchema";
 
-export default function AddEditModal({ taskData, type }) {
+export default function AddEditModal({ taskData, type, onClose }) {
   const [title, setTitle] = useState(taskData?.title || "");
   const [description, setDescription] = useState(taskData?.description || "");
   const [dueDate, setDueDate] = useState(taskData?.dueDate || "");
@@ -31,28 +31,40 @@ export default function AddEditModal({ taskData, type }) {
   const handleEditTask = useUpdateTask();
 
   const addNewTask = async () => {
-    handleAddNewTask.mutate({
-      title: title,
-      description: description,
-      status: currentstatus || "Pending",
-      dueDate: dueDate ? new Date(dueDate).toISOString() : null,
-    });
+    handleAddNewTask.mutate(
+      {
+        title: title,
+        description: description,
+        status: currentstatus || "Pending",
+        dueDate: dueDate ? new Date(dueDate).toISOString() : null,
+      },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      }
+    );
     setTitle("");
     setDescription("");
     setCurrentStatus("");
     setDueDate("");
-    document.getElementById("task-close").click();
   };
 
   const editNewTask = async () => {
-    handleEditTask.mutate({
-      id: taskId,
-      title: title,
-      description: description,
-      status: currentstatus,
-      dueDate: dueDate ? new Date(dueDate).toISOString() : null,
-    });
-    document.getElementById("edit-task-close").click();
+    handleEditTask.mutate(
+      {
+        id: taskId,
+        title: title,
+        description: description,
+        status: currentstatus,
+        dueDate: dueDate ? new Date(dueDate).toISOString() : null,
+      },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      }
+    );
 
     setTitle("");
     setDescription("");

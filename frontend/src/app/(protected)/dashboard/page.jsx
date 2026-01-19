@@ -22,7 +22,6 @@ import {
 import { useDeleteTask } from "@/handlers/mutations";
 import { useGetAllTasks, useSearchTasks } from "@/handlers/queries";
 import { SearchContext } from "@/hooks/searchContext";
-import { DialogClose } from "@radix-ui/react-dialog";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -38,8 +37,6 @@ export default function Dashboard() {
     data: allTask = [],
     hasNextPage,
     isFetchingNextPage,
-    fetchPreviousPage,
-    isFetching,
     fetchNextPage,
   } = useGetAllTasks();
   const [sortedTasks, setSortedTasks] = useState([]);
@@ -47,6 +44,7 @@ export default function Dashboard() {
   const handleDeleteTask = useDeleteTask();
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState(searchTerm);
+  const [open, setOpen] = useState(false);
 
   const { data: searchedTask = [] } = useSearchTasks(
     debouncedSearch,
@@ -93,7 +91,6 @@ export default function Dashboard() {
   useEffect(() => {
     const tasks = allTask?.pages?.flat() ?? [];
     let copy = debouncedSearch.trim() ? [...searchedTask] : [...tasks];
-    console.log(copy);
     if (sortBy === "date") {
       copy.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
     }
@@ -136,12 +133,11 @@ export default function Dashboard() {
             </Select>
           </div>
 
-          <Dialog>
+          <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="w-[70%] border-2 shadow-md shadow-slate-300">
               <DialogTitle className="text-center">ADD TASK</DialogTitle>
-              <AddEditModal type="add" />
+              <AddEditModal type="add" onClose={() => setOpen(false)} />
             </DialogContent>
-            <DialogClose id="task-close"></DialogClose>
             <DialogTrigger className="bg-primary hover:bg-primary/90 text-black text-lg h-10 p-2 rounded-xl font-bold items-center">
               <span className="text-center">Add Task</span>
             </DialogTrigger>
