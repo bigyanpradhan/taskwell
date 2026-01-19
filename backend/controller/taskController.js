@@ -1,5 +1,6 @@
 const Task = require("../models/taskModel");
 const { taskSchema, taskSearchTerm } = require("../schemas/taskSchema");
+const AppError = require("../utils/appError");
 
 const createTask = async (req, res) => {
   const { title, description, status, dueDate } = req.body;
@@ -38,20 +39,23 @@ const createTask = async (req, res) => {
 const getTasks = async (req, res) => {
   try {
     const user = req.user;
+    const page = req.query.page;
 
     if (!user) {
-      return res.status(401).json({ message: "Authenticated User Not Found" });
+      throw new AppError("Authenticated User Not Found", 401);
+      // return res.status(401).json({ message: "Authenticated User Not Found" });
     }
 
-    const response = await Task.getAllTasks(user.id);
+    const response = await Task.getAllTasks(user.id, page);
     return res.status(200).json({
       message: "All Tasks for authenticated user fetched.",
       tasks: response,
     });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ error: "Internal Server Error", msg: error.message });
+    throw new AppError("Can't Get the tasks", 400);
+    // return res
+    //   .status(500)
+    //   .json({ error: "Internal Server Error", msg: error.message });
   }
 };
 

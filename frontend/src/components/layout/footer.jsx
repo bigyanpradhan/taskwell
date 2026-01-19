@@ -25,7 +25,7 @@ export default function Footer() {
         </div>
         <div>
           <Link
-            href="https://github.com/pradhan-bigyan"
+            href="https://github.com/bigyanpradhan/taskwell"
             target="_blank"
             className="underline pr-8 hover:text-slate-400"
           >

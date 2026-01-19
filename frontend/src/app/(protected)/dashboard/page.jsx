@@ -4,6 +4,7 @@ import AddEditModal from "@/components/layout/addEditModal";
 import Cards from "@/components/layout/cards";
 import Footer from "@/components/layout/footer";
 import Navbar from "@/components/layout/navbar";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -26,13 +27,22 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 
 export default function Dashboard() {
+  const { ref, inView } = useInView();
   const [authenticated, setAuthenticated] = useState(false);
   const router = useRouter();
   const [sortBy, setSortBy] = useState("date");
 
-  const { data: allTask = [] } = useGetAllTasks();
+  const {
+    data: allTask = [],
+    hasNextPage,
+    isFetchingNextPage,
+    fetchPreviousPage,
+    isFetching,
+    fetchNextPage,
+  } = useGetAllTasks();
   const [sortedTasks, setSortedTasks] = useState([]);
   const [fname, setFname] = useState("");
   const handleDeleteTask = useDeleteTask();
@@ -76,7 +86,14 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    let copy = debouncedSearch.trim() ? [...searchedTask] : [...allTask];
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView]);
+
+  useEffect(() => {
+    const tasks = allTask?.pages?.flat() ?? [];
+    let copy = debouncedSearch.trim() ? [...searchedTask] : [...tasks];
     console.log(copy);
     if (sortBy === "date") {
       copy.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
@@ -147,18 +164,22 @@ export default function Dashboard() {
               );
             })
           ) : (
-            <span>Add Tasks</span>
+            <></>
           )}
         </div>
       </div>
-      {/* <div className="flex justify-around mt-0 mb-4">
-        <Link className="underline" href="">
-          PREV
-        </Link>
-        <Link className="underline" href="">
-          NEXT
-        </Link>
-      </div> */}
+      <div className="mb-5 font-bold italic text-center" ref={ref}>
+        {hasNextPage && isFetchingNextPage ? (
+          <p>Loading ...</p>
+        ) : sortedTasks.length === 0 ? (
+          <p>
+            Can't find any tasks. You can add the tasks by clicking the Add Task
+            Button.
+          </p>
+        ) : (
+          <p className="">All Tasks Loaded !!!</p>
+        )}
+      </div>
       <Footer />
     </div>
   );

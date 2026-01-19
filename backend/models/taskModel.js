@@ -11,9 +11,12 @@ const Task = {
     return result.rows[0];
   },
 
-  getAllTasks: async (userId) => {
-    const query = `SELECT * FROM tasks WHERE "userId" = $1 ORDER BY updated_at DESC`;
-    const values = [userId];
+  getAllTasks: async (userId, page) => {
+    const limit = 12;
+    const offset = limit * (page - 1);
+
+    const query = `SELECT * FROM tasks WHERE "userId" = $1 ORDER BY updated_at DESC LIMIT $2 OFFSET $3`;
+    const values = [userId, limit, offset];
 
     const result = await pool.query(query, values);
     return result.rows;

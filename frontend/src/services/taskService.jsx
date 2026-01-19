@@ -1,8 +1,8 @@
 import api from "./api";
 
-export const getAllTasks = async () => {
+export const getAllTasks = async ({ pageParam }) => {
   try {
-    const response = await api.get("/tasks");
+    const response = await api.get(`/tasks?page=${pageParam}`);
     return response.data?.tasks ?? [];
   } catch (error) {
     throw error;

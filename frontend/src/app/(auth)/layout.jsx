@@ -1,3 +1,11 @@
+"use client";
+
+import { SearchContext } from "@/hooks/searchContext";
+
 export default function AuthLayout({ children }) {
-  return <section>{children}</section>;
+  return (
+    <section>
+      <SearchContext.Provider value={null}>{children}</SearchContext.Provider>
+    </section>
+  );
 }

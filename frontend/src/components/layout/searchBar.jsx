@@ -1,3 +1,5 @@
+"use client";
+
 import { SearchIcon, XIcon } from "lucide-react";
 import { Field, FieldContent } from "../ui/field";
 import {

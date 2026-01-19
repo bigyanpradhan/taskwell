@@ -1,12 +1,13 @@
 import { getAllTasks, searchTask } from "@/services/taskService";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 export const useGetAllTasks = () => {
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: ["tasks"],
-    queryFn: async () => {
-      const tasks = await getAllTasks();
-      return tasks;
+    queryFn: getAllTasks,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length === 0 ? null : allPages.length + 1;
     },
   });
 };
