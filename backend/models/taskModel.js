@@ -56,7 +56,6 @@ const Task = {
 
   searchTasks: async (searchTerm, userId) => {
     const query = `SELECT * FROM tasks WHERE "userId" = $1 AND (title ILIKE $2 OR description ILIKE $2)`;
-    console.log(searchTerm);
     const values = [userId, `%${searchTerm}%`];
 
     const result = await pool.query(query, values);
