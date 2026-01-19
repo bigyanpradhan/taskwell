@@ -12,7 +12,12 @@ Description: Allows Users to sign in with credentials
 - Method: POST
 - Authentication: None
 - Request:
+  {
+  "email" : "",
+  "password": ""
+  }
 - Response:
+  Sends the accessToken for session management and for authorization during task management.
 
 ### Requirement: User Wants to Create an Account
 
@@ -33,7 +38,7 @@ Can be successful if every criteria is met.
 Can be unsuccessful if the request input are not valid or the account already exists or their is an error.
 
 - Response:
-  Sends the accessToken for session management and authorization during task management.
+  Sends the accessToken for session management and for authorization during task management.
 
 ### Requirement: User Wants to Reset Password
 
