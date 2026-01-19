@@ -1,4 +1,4 @@
-# BACKEND DOCUMENTATION
+# FRONTEND DOCUMENTATION
 
 For frontend, Next.js is used to create a the UI for the Task Management and TailwindCSS is used to style the UI. Shadcn UI along with lucide-react is used to provide reusable components and icons to make the UI better and intuitive. Zod is also used here for form validation purpose and for token validation in frontend jwt-decode is used. Protected routes were created using the jwt-decode. TanStack Query and axios are used in order to fetch the data from the backend.
 

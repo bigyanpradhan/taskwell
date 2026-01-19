@@ -19,7 +19,7 @@ For backend, Node.js with Express.js is used to create a REST API for the Task M
 - PostgreSQL (Neon)
 - npm
 
-### Required Environment Variables (Set the .env file in the backend directory)
+### Required Environment Variables (Create and Set the .env file in the backend directory)
 
 - CONNECTION_STRING=(if hosted somewhere online)
 - JWT_SECRET_KEY=(generated from online sources)
