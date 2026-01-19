@@ -2,8 +2,7 @@
 
 ## Overview
 
-This is a fullstack web application built using **Next.js** for the frontend and **Node.js with Express** for the backend.
-It, currently, includes a complete authentication system and the dashboard with task management features is being worked on.
+This is a fullstack web application built using **Next.js** for the frontend and **Node.js with Express** for the backend. It includes a complete authentication system and the dashboard with task management features. The backend contains complete CRUD operation for Task management along with security measures implemented using npm packages such as helmet, cors and express-rate-limt. The frontend utilizes the DRY principle with reusable components utilized, both Custom and third-party ones, for developing an intuitive UI/UX.
 
 Individual documentations locations:
 
