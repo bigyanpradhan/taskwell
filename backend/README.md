@@ -33,7 +33,7 @@ The backend uses a JWT-based authentication.
 - Backend APIs were tested manually using Postman
 - The functionalities(Authenticator, CRUD Ops, Protected routes) were validated manually
 - Error cases were tested manually
-  Note: Have been trying to add unit testing currently in backend
+- Unit testing using JEST for controllers(till now)
 
 ## Setup Instructions
 
@@ -57,3 +57,13 @@ npm install //In order to install all dependencies
 node setupDatabase.js //To setup database tables/functions/triggers
 npm start //running the actual backend server locally
 ```
+
+## Testing Instructions
+
+- Run the Following command
+
+```bash
+cd backend //If not already in the backend directory
+npm test //To run the jest test script for controllers
+```
+Note: Currently only the controllers test suites are written so 2 test suites will fail indefinitely.
