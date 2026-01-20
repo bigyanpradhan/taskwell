@@ -237,6 +237,7 @@ describe("User Controller", () => {
       });
     });
   });
+
   describe("Send Reset Password Email", () => {
     let req = { body: {} };
     let res = {

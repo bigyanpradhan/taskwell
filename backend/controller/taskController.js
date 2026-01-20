@@ -26,9 +26,7 @@ const createTask = async (req, res) => {
         task: response,
       });
     } catch (error) {
-      return res
-        .status(500)
-        .json({ error: "Internal Server Error", msg: error.message });
+      return res.status(500).json({ error: "Internal Server Error" });
     }
   } else {
     return res.status(422).json({ message: "The inputs are invalid." });
@@ -50,9 +48,7 @@ const getTasks = async (req, res) => {
       tasks: response,
     });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ error: "Internal Server Error", msg: error.message });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -80,8 +76,7 @@ const getSingleTask = async (req, res) => {
 };
 
 const updateTasks = async (req, res) => {
-  const updates = req.body;
-  const { title, description, status, dueDate } = updates;
+  const { title, description, status, dueDate } = req.body;
   const result = taskSchema.safeParse({ title, description, status, dueDate });
 
   if (result.success) {
@@ -89,15 +84,18 @@ const updateTasks = async (req, res) => {
       const { id } = req.params;
       const user = req.user;
 
-      const response = await Task.updateTask(id, user.id, updates);
+      const response = await Task.updateTask(id, user.id, {
+        title,
+        description,
+        status,
+        dueDate,
+      });
       return res.status(200).json({
         message: "Updated the task Successfully",
         note: response,
       });
     } catch (error) {
-      return res
-        .status(500)
-        .json({ error: "Internal Server Error", msg: error.message });
+      return res.status(500).json({ message: "Internal Server Error" });
     }
   } else {
     return res.status(422).json({ message: "The inputs are not valid." });
@@ -114,9 +112,7 @@ const deleteTasks = async (req, res) => {
       message: "Deleted Task",
     });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ error: "Internal Server Error", msg: error.message });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -134,12 +130,12 @@ const searchTasks = async (req, res) => {
         tasks: response,
       });
     } catch (error) {
-      return res
-        .status(500)
-        .json({ error: "Internal Server Error", msg: error.message });
+      return res.status(500).json({ message: "Internal Server Error" });
     }
   } else {
-    return res.status(422).json({ message: result.error.issues.message });
+    return res
+      .status(422)
+      .json({ message: "Search term must be at least 1 character long." });
   }
 };
 
