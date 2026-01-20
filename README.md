@@ -66,7 +66,7 @@ backend/<br>
 ├─ index.js # main entry point<br>
 └─ README.md/ # Backend Documentation<br>
 
-## Getiing Started
+## Getting Started
 
 1. Clone the repository
 
