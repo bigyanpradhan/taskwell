@@ -122,6 +122,7 @@ const userSignIn = async (req, res) => {
       });
     } catch (error) {
       console.log("Error during account creation", error.message);
+      return res.status(500).json({ message: "Internal Server Error" });
     }
   } else {
     return res.status(422).json({ message: "The inputs are invalid." });
@@ -142,7 +143,7 @@ const sendEmail = async (req, res) => {
       }
       const user = await User.findByEmail(email);
       if (!user) {
-        return res.status(400).json({
+        return res.status(404).json({
           message: "No user found with this email.",
         });
       }
@@ -177,16 +178,7 @@ const sendEmail = async (req, res) => {
       };
 
       // Send the email
-      const mailResponse = await transporter.sendMail(
-        mailOptions,
-        function (error, info) {
-          if (error) {
-            console.log("Error:", error);
-          } else {
-            console.log("Email sent: " + info.response);
-          }
-        }
-      );
+      const mailResponse = await transporter.sendMail(mailOptions);
 
       return res.status(200).json({
         message: "Password reset email sent successfully.",
@@ -215,13 +207,13 @@ const changePassword = async (req, res) => {
         password
       );
 
-      return res.json({
+      return res.status(200).json({
         message: "Password updated successfully.",
         id: user.id,
         email: user.email,
       });
     } catch (error) {
-      return res.status(401).json({ message: "Invalid or expired token." });
+      return res.status(500).json({ message: "Internal Server Error." });
     }
   } else {
     return res.status(422).json({ message: result.error.issues[0].message });
