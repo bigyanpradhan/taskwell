@@ -36,7 +36,8 @@ src/<br>
 ├─ hooks/<br>
 ├─ lib/<br>
 ├─ providers/ # TanStack Query Provider<br>
-└─ services/ # Axios instance & API requests<br>
+├─ services/ # Axios instance & API requests<br>
+└─ README.md/ # Frontend Documentation<br>
 
 ## Backend Folder Structure
 
@@ -62,4 +63,36 @@ backend/<br>
 │ └─ routes.js<br>
 │<br>
 ├─ .env<br>
-└─ index.js # main entry point<br>
+├─ index.js # main entry point<br>
+└─ README.md/ # Backend Documentation<br>
+
+## Getiing Started
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/bigyanpradhan/taskwell.git
+```
+
+2. Setup Backend
+
+```bash
+cd backend
+```
+
+Follow the instructions in the backend documentation
+
+3. Setup Frontend
+
+```bash
+cd .. // Get into the root directory of you repo
+cd frontend
+```
+
+Follow the instructions in the frontend documentation
+
+4. Verify
+
+Open the http://localhost:3000 to see the application.
+
+Note: Make sure the ports 3000(frontend) and 8000(backend) aren't taken up by others. Or you can change the ports in order to run the application.

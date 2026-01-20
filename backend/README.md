@@ -11,6 +11,30 @@ For backend, Node.js with Express.js is used to create a REST API for the Task M
 - Nodemailer
 - Zod
 
+## Security measures
+
+- JWT-based authentication
+- Helmet for headers security
+- CORS configuration for request origin filtering
+- Request rate limiting
+
+## Authentication Flow
+
+The backend uses a JWT-based authentication.
+
+1. The user logs in with valid credentials or signs up with valid inputs,
+2. The backend issues a signed JWT access token
+3. Token must be sent in **Authorization** header as: **Authorization: Bearer <token>**
+4. Protected routes are guarded by the 'authenticator' middleware(Both the dashboard and reset password functionality)
+5. Password reset uses a time-limited reset token verified by the authenticator as well.
+
+## Testing
+
+- Backend APIs were tested manually using Postman
+- The functionalities(Authenticator, CRUD Ops, Protected routes) were validated manually
+- Error cases were tested manually
+  Note: Have been trying to add unit testing currently in backend
+
 ## Setup Instructions
 
 ### Prerequisites
