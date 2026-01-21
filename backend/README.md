@@ -33,7 +33,7 @@ The backend uses a JWT-based authentication.
 - Backend APIs were tested manually using Postman
 - The functionalities(Authenticator, CRUD Ops, Protected routes) were validated manually
 - Error cases were tested manually
-- Unit testing using JEST for controllers(till now)
+- Unit testing using JEST for the controllers, models and authenticator middleware.
 
 ## Setup Instructions
 
@@ -60,10 +60,9 @@ npm start //running the actual backend server locally
 
 ## Testing Instructions
 
-- Run the Following command
+Run the Following command.
 
 ```bash
 cd backend //If not already in the backend directory
-npm test //To run the jest test script for controllers
+npm test //To run the jest test script
 ```
-Note: Currently only the controllers test suites are written so 2 test suites will fail indefinitely.
