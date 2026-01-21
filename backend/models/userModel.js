@@ -14,7 +14,8 @@ const User = {
 
       return result.rows[0];
     } catch (error) {
-      console.log("Internal DB Server Error.");
+      console.log("Internal DB Server Error.", error.message);
+      throw error;
     }
   },
 
@@ -27,7 +28,8 @@ const User = {
 
       return result.rows[0] || false;
     } catch (error) {
-      console.log("Internal DB Server Error.");
+      console.log("Internal DB Server Error.", error.message);
+      throw error;
     }
   },
 
@@ -40,7 +42,8 @@ const User = {
 
       return result.rows[0];
     } catch (error) {
-      console.log("Internal DB Server Error.");
+      console.log("Internal DB Server Error.", error.message);
+      throw error;
     }
   },
 
@@ -64,7 +67,8 @@ const User = {
 
       return result.rows[0];
     } catch (error) {
-      console.log("Internal DB Server Error.");
+      console.log("Internal DB Server Error.", error.message);
+      throw error;
     }
   },
 };

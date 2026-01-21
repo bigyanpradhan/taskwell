@@ -56,18 +56,16 @@ describe("User Models", () => {
 
       pool.query.mockRejectedValue(new Error("DB ERROR"));
 
-      const result = await User.create(
-        "John",
-        "Wick",
-        "john.wick@continental.com",
-        "password"
-      );
+      await expect(
+        User.create("John", "Wick", "john.wick@continental.com", "password")
+      ).rejects.toThrow("DB ERROR");
 
       expect(bcrypt.hash).toHaveBeenCalledWith("password", 10);
 
-      expect(result).toBeUndefined();
-
-      expect(logSpy).toHaveBeenCalledWith("Internal DB Server Error.");
+      expect(logSpy).toHaveBeenCalledWith(
+        "Internal DB Server Error.",
+        "DB ERROR"
+      );
     });
   });
 
@@ -120,17 +118,20 @@ describe("User Models", () => {
     it("should log the error message in the console and the result should be undefined", async () => {
       const logSpy = jest.spyOn(console, "log").mockImplementation();
 
-      pool.query.mockRejectedValue(new Error("DB Error"));
+      pool.query.mockRejectedValue(new Error("DB ERROR"));
 
-      const result = await User.findByEmail("john.wick@continental.com");
+      await expect(
+        User.findByEmail("john.wick@continental.com")
+      ).rejects.toThrow("DB ERROR");
 
       expect(pool.query).toHaveBeenCalledWith(expect.any(String), [
         "john.wick@continental.com",
       ]);
 
-      expect(result).toBeUndefined();
-
-      expect(logSpy).toHaveBeenCalledWith("Internal DB Server Error.");
+      expect(logSpy).toHaveBeenCalledWith(
+        "Internal DB Server Error.",
+        "DB ERROR"
+      );
     });
   });
 
@@ -168,13 +169,14 @@ describe("User Models", () => {
 
       pool.query.mockRejectedValue(new Error("DB ERROR"));
 
-      const result = await User.getById(1);
+      await expect(User.getById(1)).rejects.toThrow("DB ERROR");
 
       expect(pool.query).toHaveBeenCalledWith(expect.any(String), [1]);
 
-      expect(result).toBeUndefined();
-
-      expect(logSpy).toHaveBeenCalledWith("Internal DB Server Error.");
+      expect(logSpy).toHaveBeenCalledWith(
+        "Internal DB Server Error.",
+        "DB ERROR"
+      );
     });
   });
 
@@ -220,11 +222,9 @@ describe("User Models", () => {
 
       pool.query.mockRejectedValue(new Error("DB ERROR"));
 
-      const result = await User.updatePassword(
-        1,
-        "john.wick@continental.com",
-        "password"
-      );
+      await expect(
+        User.updatePassword(1, "john.wick@continental.com", "password")
+      ).rejects.toThrow("DB ERROR");
 
       expect(bcrypt.hash).toHaveBeenCalledWith("password", 10);
 
@@ -234,9 +234,10 @@ describe("User Models", () => {
         "john.wick@continental.com",
       ]);
 
-      expect(result).toBeUndefined();
-
-      expect(logSpy).toHaveBeenCalledWith("Internal DB Server Error.");
+      expect(logSpy).toHaveBeenCalledWith(
+        "Internal DB Server Error.",
+        "DB ERROR"
+      );
     });
   });
 });
