@@ -14,7 +14,7 @@ const User = {
 
       return result.rows[0];
     } catch (error) {
-      console.log("Error while creating a user:", error.message);
+      console.log("Internal DB Server Error.");
     }
   },
 
@@ -27,11 +27,7 @@ const User = {
 
       return result.rows[0] || false;
     } catch (error) {
-      console.log(
-        "Error while trying to find the user by email:",
-        error.message
-      );
-      throw error;
+      console.log("Internal DB Server Error.");
     }
   },
 
@@ -44,7 +40,7 @@ const User = {
 
       return result.rows[0];
     } catch (error) {
-      console.log("Error while trying to get the user by id:", error.message);
+      console.log("Internal DB Server Error.");
     }
   },
 
@@ -68,8 +64,7 @@ const User = {
 
       return result.rows[0];
     } catch (error) {
-      console.error("Error while updating the password:", error.message);
-      throw error; // important so controller knows it failed
+      console.log("Internal DB Server Error.");
     }
   },
 };
