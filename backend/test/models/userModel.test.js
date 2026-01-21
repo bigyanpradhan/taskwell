@@ -48,6 +48,7 @@ describe("User Models", () => {
         email: "john.wick@continental.com",
       });
     });
+
     // DB error is encountered
     it("should log the error message in the console and the result should be undefined", async () => {
       bcrypt.hash.mockResolvedValue("hashedPassword");
