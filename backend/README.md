@@ -58,6 +58,14 @@ node setupDatabase.js //To setup database tables/functions/triggers
 npm start //running the actual backend server locally
 ```
 
+### API Documentation in Swagger
+
+Start the backend server by running the command
+```bash
+npm start
+```
+and go to http://localhost:8000/api-docs/ in your browser in order to see the API Documentation in the swagger.
+
 ## Testing Instructions
 
 Run the Following command.
