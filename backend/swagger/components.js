@@ -37,7 +37,7 @@
  *              password_hash:
  *                  type: string
  *                  format: bcrypt
- *                  example: "$2b$10$dxvNT8J4q8PVlcQ6zhWFUeoCaeNg3PIgej3RSkxL1iJ4eFFzWQjNO"
+ *                  example: "j3RSkxL1iJ4eFFzWQjNO..........."
  *                  description: "The password hashed using bcrypt."
  *              created_at:
  *                  type: string

@@ -55,7 +55,7 @@
  *                                  accessToken:
  *                                          type: string
  *                                          format: JWT
- *                                          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoiSm9obiIsImxhc3ROYW1lIjoiV2ljayIsImVtYWlsIjoic2VyYXc2NTg4OUBpeG9zcGFjZS5jb20iLCJpYXQiOjE3NjkwNTIzMTgsImV4cCI6MTc2OTMxMTUxOH0.h6Xp_ZwkQwSmURrKi-DxEq-D11Lhfev4u6r5Y1ScgUg"
+ *                                          example: "IzMTgsImV4cCI6MTc2OTMxMTUxOH0.h6Xp_ZwkQwSmURrKi-DxEq-D11Lhfev4u6r5Y1ScgUg................"
  *
  *              "422":
  *                  $ref: '#/components/responses/InvalidInputs'
@@ -134,7 +134,7 @@
  *                                  accessToken:
  *                                          type: string
  *                                          format: JWT
- *                                          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZmlyc3ROYW1lIjoiSm9obiIsImxhc3ROYW1lIjoiRG9lIiwiZW1haWwiOiJiaWd5YW4ucHJhZGhhbkB5Y290ZWsuY29tIiwiaWF0IjoxNzY5MDUzOTU3LCJleHAiOjE3NjkzMTMxNTd9.CKs4K6WqTZH1uUOWLDA1LruRbw7plNn8FTl1zZ10qGc"
+ *                                          example: "IjoxNzY5MDUzOTU3LCJleHAiOjE3NjkzMTMxNTd9.CKs4K6WqTZH1uUOWLDA1LruRbw7plNn8FTl1zZ10qGc............"
  *
  *
  *              "409":
@@ -175,7 +175,7 @@
  *                                  description: Reset Token for the password reset operation.
  *                                  type: string
  *                                  format: JWT
- *                                  example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZmlyc3ROYW1lIjoiSm9obiIsImxhc3ROYW1lIjoiRG9lIiwiZW1haWwiOiJiaWd5YW4ucHJhZGhhbkB5Y290ZWsuY29tIiwiaWF0IjoxNzY5MDUzOTU3LCJleHAiOjE3NjkzMTMxNTd9.CKs4K6WqTZH1uUOWLDA1LruRbw7plNn8FTl1zZ10qGc"
+ *                                  example: "IjoxNzY5MDUzOTU3LCJleHAiOjE3NjkzMTMxNTd9.CKs4K6WqTZH1uUOWLDA1LruRbw7plNn8FTl1zZ10qGc............"
  *                              password:
  *                                  type: string
  *                                  format: password
