@@ -9,7 +9,7 @@ Individual documentations locations:
 - Frontend Documentation: frontend/README.md
 - Backend Documentation: backend/README.md
 - Database Documentation: backend/db/README.md
-- API Documentation: docs/apidocumentation.md
+- API Documentation(**Crude Overview**): docs/apidocumentation.md
 - API Documentation(**In Swagger**): Run the backend and go to http://localhost:8000/api-docs/. For more info see the Backend Documentation.
 
 ## Frontend Folder Structure

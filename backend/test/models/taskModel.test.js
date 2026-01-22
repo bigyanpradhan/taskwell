@@ -29,7 +29,7 @@ describe("Task Models", () => {
         "description",
         "Pending",
         1,
-        "2024-08-01T14:38:32Z"
+        "2024-08-01T14:38:32Z",
       );
 
       expect(pool.query).toHaveBeenCalledWith(expect.any(String), [
@@ -62,8 +62,8 @@ describe("Task Models", () => {
           "description",
           "Pending",
           1,
-          "2024-08-01T14:38:32Z"
-        )
+          "2024-08-01T14:38:32Z",
+        ),
       ).rejects.toThrow("DB ERROR");
 
       expect(pool.query).toHaveBeenCalledWith(expect.any(String), [
@@ -76,7 +76,7 @@ describe("Task Models", () => {
 
       expect(logSpy).toHaveBeenCalledWith(
         "Internal DB Server Error.",
-        "DB ERROR"
+        "DB ERROR",
       );
     });
   });
@@ -157,7 +157,7 @@ describe("Task Models", () => {
 
       expect(logSpy).toHaveBeenCalledWith(
         "Internal DB Server Error.",
-        "DB ERROR"
+        "DB ERROR",
       );
     });
   });
@@ -200,7 +200,7 @@ describe("Task Models", () => {
 
       expect(logSpy).toHaveBeenCalledWith(
         "Internal DB Server Error.",
-        "DB ERROR"
+        "DB ERROR",
       );
     });
   });
@@ -255,7 +255,7 @@ describe("Task Models", () => {
           description: "description",
           status: "In Progress",
           dueDate: "datehere",
-        })
+        }),
       ).rejects.toThrow("DB ERROR");
 
       expect(pool.query).toHaveBeenCalledWith(expect.any(String), [
@@ -269,7 +269,7 @@ describe("Task Models", () => {
 
       expect(logSpy).toHaveBeenCalledWith(
         "Internal DB Server Error.",
-        "DB ERROR"
+        "DB ERROR",
       );
     });
   });
@@ -300,7 +300,7 @@ describe("Task Models", () => {
 
       expect(logSpy).toHaveBeenCalledWith(
         "Internal DB Server Error.",
-        "DB ERROR"
+        "DB ERROR",
       );
     });
   });
@@ -375,7 +375,7 @@ describe("Task Models", () => {
 
       expect(logSpy).toHaveBeenCalledWith(
         "Internal DB Server Error.",
-        "DB ERROR"
+        "DB ERROR",
       );
     });
   });
