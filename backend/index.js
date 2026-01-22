@@ -22,7 +22,8 @@ const options = {
     info: {
       title: "TaskWell API",
       version: "1.0.0",
-      description: "",
+      description:
+        "Taskwell is a task management system that allows users to create, update, search, fetch and delete tasks. This API provides endpoints for user creation and authntication, tasks CRUD operations and task searching as well. It is a comprehensive documentation to be followed in trying to understand the nature of request the frontend must send and the responses that it could receive from the backend.",
     },
     servers: [
       {
