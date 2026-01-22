@@ -30,7 +30,12 @@ export default function LoginForm() {
     setShowPassword(!showPassword);
   };
 
-  const handleLogin = useLogin();
+  const loginMutation = useLogin({
+    onSuccess: () => {
+      setEmail("");
+      setPassword("");
+    },
+  });
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -47,9 +52,7 @@ export default function LoginForm() {
       return;
     }
     setError({});
-    handleLogin.mutate({ email, password });
-    setEmail("");
-    setPassword("");
+    loginMutation.mutate({ email, password });
   };
 
   return (
@@ -84,7 +87,7 @@ export default function LoginForm() {
         {error.email && <p className="text-sm text-red-600">{error.email}</p>}
 
         <Field>
-          <FieldLabel className="text-xl pt-1" htmlFor="email">
+          <FieldLabel className="text-xl pt-1" htmlFor="password">
             Password*
           </FieldLabel>
           <FieldContent>
@@ -132,7 +135,7 @@ export default function LoginForm() {
         <Button
           className="mt-3 h-12 w-full text-2xl"
           type="submit"
-          disabled={handleLogin.isLoading}
+          disabled={loginMutation.isLoading}
         >
           Login
         </Button>

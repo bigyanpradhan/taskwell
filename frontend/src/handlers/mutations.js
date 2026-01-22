@@ -1,10 +1,4 @@
-import {
-  createTask,
-  deleteTask,
-  updateTask,
-  updateTaskDueDate,
-  updateTaskStatus,
-} from "@/services/taskService";
+import { createTask, deleteTask, updateTask } from "@/services/taskService";
 import {
   createAccount,
   loginUser,
@@ -29,6 +23,7 @@ export const useLogin = () => {
       } else {
         localStorage.setItem("accessToken", data.accessToken);
         toast.success("Login Successful!");
+        options.onSuccess?.(data);
         router.push("/dashboard");
       }
     },

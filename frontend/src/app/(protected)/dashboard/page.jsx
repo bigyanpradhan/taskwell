@@ -48,7 +48,7 @@ export default function Dashboard() {
 
   const { data: searchedTask = [] } = useSearchTasks(
     debouncedSearch,
-    !!debouncedSearch
+    !!debouncedSearch,
   );
 
   useEffect(() => {
