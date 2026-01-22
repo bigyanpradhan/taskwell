@@ -6,14 +6,14 @@ function authenticateToken(req, res, next) {
 
   if (!token) {
     return res.status(401).json({
-      message: "Token not found",
+      message: "User isn't authenticated.",
     });
   }
 
   jwt.verify(token, process.env.JWT_SECRET_KEY, (err, user) => {
     if (err) {
       return res.status(403).json({
-        message: "invalid token",
+        message: "User isn't authorized.",
       });
     }
     req.user = user;
@@ -24,14 +24,14 @@ function authenticateToken(req, res, next) {
 function authenticateResetToken(req, res, next) {
   const token = req.body.token
     ? req.body.token
-    : req.headers["authorization"].split(" ")[1];
+    : req.headers["authorization"]?.split(" ")[1];
 
   if (!token) {
-    return res.status(401).json({ message: "Token not found" });
+    return res.status(401).json({ message: "User isn't authenticated." });
   }
   jwt.verify(token, process.env.JWT_SECRET_KEY, (err, user) => {
     if (err) {
-      return res.status(403).json({ message: "Invalid or expired token" });
+      return res.status(403).json({ message: "User isn't authorized." });
     }
     req.user = user;
     next();

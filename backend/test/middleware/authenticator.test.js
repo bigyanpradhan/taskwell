@@ -22,7 +22,9 @@ describe("Authenticator Middleware", () => {
       await authenticateToken(req, res, next);
 
       expect(res.status).toHaveBeenCalledWith(401);
-      expect(res.json).toHaveBeenCalledWith({ message: "Token not found" });
+      expect(res.json).toHaveBeenCalledWith({
+        message: "User isn't authenticated.",
+      });
     });
 
     // Token present but Invalid
@@ -30,13 +32,15 @@ describe("Authenticator Middleware", () => {
       req.headers = { authorization: "Bearer token" };
 
       jwt.verify.mockImplementation((token, key, cb) =>
-        cb(new Error("Invalid Token"), null)
+        cb(new Error("Invalid Token"), null),
       );
 
       await authenticateToken(req, res, next);
 
       expect(res.status).toHaveBeenCalledWith(403);
-      expect(res.json).toHaveBeenCalledWith({ message: "invalid token" });
+      expect(res.json).toHaveBeenCalledWith({
+        message: "User isn't authorized.",
+      });
     });
 
     // token valid
@@ -48,7 +52,7 @@ describe("Authenticator Middleware", () => {
           id: 1,
           first_name: "John",
           email: "john.wick@continental.com",
-        })
+        }),
       );
 
       await authenticateToken(req, res, next);
@@ -86,7 +90,7 @@ describe("Authenticator Middleware", () => {
       req.body = { token: "token" };
 
       jwt.verify.mockImplementation((token, key, cb) =>
-        cb(new Error("Invalid Token"), null)
+        cb(new Error("Invalid Token"), null),
       );
 
       await authenticateResetToken(req, res, next);
@@ -107,7 +111,7 @@ describe("Authenticator Middleware", () => {
           id: 1,
           first_name: "John",
           email: "john.wick@continental.com",
-        })
+        }),
       );
 
       await authenticateResetToken(req, res, next);

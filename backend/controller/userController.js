@@ -48,7 +48,7 @@ const userSignUp = async (req, res) => {
         process.env.JWT_SECRET_KEY,
         {
           expiresIn: "72h",
-        }
+        },
       );
 
       return res.status(201).json({
@@ -107,7 +107,7 @@ const userSignIn = async (req, res) => {
         process.env.JWT_SECRET_KEY,
         {
           expiresIn: "72h",
-        }
+        },
       );
 
       return res.status(200).json({
@@ -156,7 +156,7 @@ const sendEmail = async (req, res) => {
         process.env.JWT_SECRET_KEY,
         {
           expiresIn: 300,
-        }
+        },
       );
 
       const transporter = nodemailer.createTransport({
@@ -204,7 +204,7 @@ const changePassword = async (req, res) => {
       const user = await User.updatePassword(
         decoded.id,
         decoded.email,
-        password
+        password,
       );
 
       return res.status(200).json({
