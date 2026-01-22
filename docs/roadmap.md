@@ -32,7 +32,7 @@
 - ✅ Database schema documentation
 - ✅ Setup and installation guide
 - ✅ Environment variables documentation
-- ⬜ Testing instructions
+- ✅ Testing instructions(For Backend)
 
 ## 4. Testing
 
