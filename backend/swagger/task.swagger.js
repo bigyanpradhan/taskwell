@@ -45,6 +45,7 @@
  *                  $ref: '#/components/responses/InternalServerError'
  *
  *
+ *
  *      post:
  *          security:
  *              - bearerAuth: []
@@ -130,6 +131,46 @@
  *
  *
  *  /tasks/{id}:
+ *      get:
+ *          security:
+ *              - bearerAuth: []
+ *          tags:
+ *              - Tasks Routes
+ *          summary: Get a single Task
+ *          parameters:
+ *              - in: path
+ *                name: id
+ *                schema:
+ *                  type: integer
+ *                  minimum: 1
+ *                required: true
+ *                description: "The id of the task to fetch."
+ *
+ *          responses:
+ *              "200":
+ *                  description: Single Task Fetched.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  message:
+ *                                      type: string
+ *                                      example: Task found for user
+ *                                  task:
+ *                                      $ref: '#/components/schemas/Task'
+ *
+ *              "401":
+ *                  $ref: '#/components/responses/UnauthenticatedUser'
+ *
+ *              "403":
+ *                  $ref: '#/components/responses/UnauthorizedUser'
+ *
+ *              "500":
+ *                  $ref: '#/components/responses/InternalServerError'
+ *
+ *
+ *
  *      put:
  *          security:
  *              - bearerAuth: []
@@ -249,46 +290,6 @@
  *                                  message:
  *                                      type: string
  *                                      example: Deleted Task
- *
- *              "401":
- *                  $ref: '#/components/responses/UnauthenticatedUser'
- *
- *              "403":
- *                  $ref: '#/components/responses/UnauthorizedUser'
- *
- *              "500":
- *                  $ref: '#/components/responses/InternalServerError'
- *
- *
- *  /gettasks/{id}:
- *      get:
- *          security:
- *              - bearerAuth: []
- *          tags:
- *              - Tasks Routes
- *          summary: Get a single Task
- *          parameters:
- *              - in: path
- *                name: id
- *                schema:
- *                  type: integer
- *                  minimum: 1
- *                required: true
- *                description: "The id of the task to fetch."
- *
- *          responses:
- *              "200":
- *                  description: Single Task Fetched.
- *                  content:
- *                      application/json:
- *                          schema:
- *                              type: object
- *                              properties:
- *                                  message:
- *                                      type: string
- *                                      example: Task found for user
- *                                  task:
- *                                      $ref: '#/components/schemas/Task'
  *
  *              "401":
  *                  $ref: '#/components/responses/UnauthenticatedUser'

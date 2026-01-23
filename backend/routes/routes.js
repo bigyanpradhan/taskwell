@@ -19,18 +19,18 @@ const {
   authenticateResetToken,
 } = require("../middleware/authenticator");
 
-//USER CONTROLLERS
-router.post("/login", userSignIn);
-router.post("/create-account", userSignUp);
-router.patch("/reset-password", authenticateResetToken, changePassword);
-router.post("/send-email", sendEmail);
+//AUTH CONTROLLERS
+router.post("/auth/login", userSignIn);
+router.post("/auth/register", userSignUp);
+router.patch("/auth/reset-password", authenticateResetToken, changePassword);
+router.post("/auth/send-email", sendEmail);
 
 //TASK CONTROLLERSupdate
 router.get("/tasks", authenticateToken, getTasks);
+router.get("/tasks/:id", authenticateToken, getSingleTask);
 router.post("/tasks", authenticateToken, createTask);
 router.put("/tasks/:id", authenticateToken, updateTasks);
 router.delete("/tasks/:id", authenticateToken, deleteTasks);
-router.get("/gettasks/:id", authenticateToken, getSingleTask);
 router.get("/searchTasks", authenticateToken, searchTasks);
 
 module.exports = router;

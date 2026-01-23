@@ -8,7 +8,7 @@ The routes provided by the backend for requests are:
 
 Description: Allows Users to sign in with credentials
 
-- Endpoint: {{BASEURL}}/api/login
+- Endpoint: {{BASEURL}}/api/auth/login
 - Method: POST
 - Authentication: None
 - Request:
@@ -23,7 +23,7 @@ Description: Allows Users to sign in with credentials
 
 Description: Registers a new user
 
-- Endpoint: {{BASEURL}}/api/create-account
+- Endpoint: {{BASEURL}}/api/auth/register
 - Method: POST
 - Authentication: None
 - Request:
@@ -44,7 +44,7 @@ Can be unsuccessful if the request input are not valid or the account already ex
 
 Description: Allows Users to sign in with credentials
 
-- Endpoint: {{BASEURL}}/api/reset-password
+- Endpoint: {{BASEURL}}/api/auth/reset-password
 - Method: PATCH
 - Authentication: Through a jwt token specific for the reset password operation that is handled by authenticator middleware.
 - Request:
@@ -60,7 +60,7 @@ Description: Allows Users to sign in with credentials
 
 Description: Allows Users to sign in with credentials
 
-- Endpoint: {{BASEURL}}/api/send-email
+- Endpoint: {{BASEURL}}/api/auth/send-email
 - Method: POST
 - Authentication: None
 - Request:
@@ -88,7 +88,7 @@ Description: Retrieves all the tasks for the logged in user
 
 Description: Retrieves a single task by it's ID
 
-- Endpoint: {{BASEURL}}/api/gettasks/:id
+- Endpoint: {{BASEURL}}/api/tasks/:id
 - Method: GET
 - Authentication: Required(Done through Authentication Header in sent in every request)
 - Request: No Body. Has a specific param id which is the task id to fetch.

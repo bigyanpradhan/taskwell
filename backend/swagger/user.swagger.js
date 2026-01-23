@@ -2,10 +2,10 @@
  * @swagger
  * # --- User Collections ---
  * paths:
- *  /login:
+ *  /auth/login:
  *      post:
  *          tags:
- *              - User Routes
+ *              - Auth Routes
  *          summary: User Login
  *          requestBody:
  *              required: true
@@ -76,10 +76,10 @@
  *
  *
  *
- *  /create-account:
+ *  /auth/register:
  *      post:
  *          tags:
- *              - User Routes
+ *              - Auth Routes
  *          summary: Creation of an Account by the User
  *          requestBody:
  *              required: true
@@ -156,10 +156,10 @@
  *
  *
  *
- *  /reset-password:
+ *  /auth/reset-password:
  *      patch:
  *          tags:
- *              - User Routes
+ *              - Auth Routes
  *          summary: Reset the Password using the reset token
  *          requestBody:
  *              required: true
@@ -208,10 +208,10 @@
  *
  *
  *
- *  /send-email:
+ *  /auth/send-email:
  *      post:
  *          tags:
- *              - User Routes
+ *              - Auth Routes
  *          summary: Send mail with the link to reset the password
  *          requestBody:
  *              required: true
