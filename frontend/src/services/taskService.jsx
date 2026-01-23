@@ -39,27 +39,9 @@ export const deleteTask = async (task) => {
 export const searchTask = async (searchTerm) => {
   try {
     const response = await api.get(
-      `/searchTasks?searchTerm=${encodeURIComponent(searchTerm)}`
+      `/searchTasks?searchTerm=${encodeURIComponent(searchTerm)}`,
     );
     return response.data.tasks;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const updateTaskStatus = async (updates) => {
-  try {
-    const response = await api.patch("/updateStatus", updates);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const updateTaskDueDate = async () => {
-  try {
-    const response = await api.patch("/updateDueDate", updates);
-    return response.data;
   } catch (error) {
     throw error;
   }

@@ -11,6 +11,12 @@ For frontend, Next.js is used to create a the UI for the Task Management and Tai
 - Axios
 - Lucide React
 
+## Testing
+
+- Normal User testing is done
+- Error cases(mostly) were tested manually
+- Unit testing using JEST for the zod schema and the user and task services(API communication)
+
 ## Setup Instructions
 
 ### Prerequisites
@@ -26,4 +32,13 @@ No env file is required for the frontend.
 ```bash
 npm install //In order to install all dependencies
 npm run dev //running the actual frontend locally
+```
+
+## Testing Instructions
+
+Run the Following command.
+
+```bash
+cd frontend //If not already in the frontend directory
+npm test //To run the jest test script
 ```
