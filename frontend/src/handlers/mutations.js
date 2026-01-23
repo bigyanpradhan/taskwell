@@ -23,7 +23,6 @@ export const useLogin = () => {
       } else {
         localStorage.setItem("accessToken", data.accessToken);
         toast.success("Login Successful!");
-        options.onSuccess?.(data);
         router.push("/dashboard");
       }
     },

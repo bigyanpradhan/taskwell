@@ -30,12 +30,7 @@ export default function LoginForm() {
     setShowPassword(!showPassword);
   };
 
-  const loginMutation = useLogin({
-    onSuccess: () => {
-      setEmail("");
-      setPassword("");
-    },
-  });
+  const loginMutation = useLogin();
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -53,6 +48,8 @@ export default function LoginForm() {
     }
     setError({});
     loginMutation.mutate({ email, password });
+    setEmail("");
+    setPassword("");
   };
 
   return (
