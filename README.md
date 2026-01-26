@@ -69,6 +69,30 @@ backend/<br>
 
 ## Getting Started
 
+### With Docker
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/bigyanpradhan/taskwell.git
+```
+
+2. Create and add the .env files as mentioned in the backend documentation.
+
+3. Use the following command to build image and run containers(both backend and frontend)
+
+```bash
+# In detached mode so logs are shown in the docker desktop/dashboard
+# This will build images and start both backend and frontend containers.
+docker compose up -d
+```
+
+4. Verify
+
+Open the http://localhost:3000 to see the application.
+
+### Without docker
+
 1. Clone the repository
 
 ```bash
@@ -86,7 +110,7 @@ Follow the instructions in the backend documentation
 3. Setup Frontend
 
 ```bash
-cd .. // Get into the root directory of you repo
+cd .. // Get into the root directory of your repo
 cd frontend
 ```
 

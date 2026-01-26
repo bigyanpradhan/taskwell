@@ -82,7 +82,9 @@ describe("Authenticator Middleware", () => {
       await authenticateResetToken(req, res, next);
 
       expect(res.status).toHaveBeenCalledWith(401);
-      expect(res.json).toHaveBeenCalledWith({ message: "Token not found" });
+      expect(res.json).toHaveBeenCalledWith({
+        message: "User isn't authenticated.",
+      });
     });
 
     // Token present but Invalid
@@ -97,7 +99,7 @@ describe("Authenticator Middleware", () => {
 
       expect(res.status).toHaveBeenCalledWith(403);
       expect(res.json).toHaveBeenCalledWith({
-        message: "Invalid or expired token",
+        message: "User isn't authorized.",
       });
     });
 
