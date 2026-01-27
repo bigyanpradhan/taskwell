@@ -28,6 +28,10 @@ export default function Navbar() {
       : null;
     if (token && token !== "undefined") {
       const decoded = jwtDecode(token);
+      if (decoded.exp * 1000 < Date.now()) {
+        localStorage.removeItem("accessToken");
+        return;
+      }
       const initials =
         decoded.firstName.split("")[0].toUpperCase() +
         decoded.lastName.split("")[0].toUpperCase();
