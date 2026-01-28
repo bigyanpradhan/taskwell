@@ -39,7 +39,7 @@ The backend uses a JWT-based authentication.
 
 ### Prerequisites
 
-- Node.js (v18+ recommended)
+- Node.js (v20+ recommended)
 - PostgreSQL (Neon)
 - npm
 
